@@ -3,30 +3,30 @@ import ReactDOM from 'https://cdn.skypack.dev/react-dom'
 
 const e = React.createElement;
 
-const Square = ({ row, column }) => {
+const Square = ({ row, column, action }) => {
   // states are '', 'star', 'red'
-  const [state, setState] = React.useState('');
+  const [state, setState] = React.useState('white');
 
   return e(
     'div',
     {
       style: {
-        backgroundColor: state === 'red' ? 'red' : 'white',
+        backgroundColor: state,
         margin: 'auto',
       },
       onClick: () => {
-        setState(state === 'red' ? '' : 'red')
+        setState(state === action ? 'white' : action)
       }
     },
     `(${row}, ${column})`
   )
 }
 
-const Board = () => {
+const Board = ({ action }) => {
   const children = [];
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
-      children.push(e(Square, { row, column }));
+      children.push(e(Square, { row, column, action }));
     }
   }
   
@@ -59,13 +59,13 @@ const Toolbar = () => {
 }
 
 const App = () => {
-  
+  const [action, setAction] = React.useState('green');
   
   return e(
     'div',
     {},
     e(Toolbar),
-    e(Board)
+    e(Board, { action })
   )
 }
 
