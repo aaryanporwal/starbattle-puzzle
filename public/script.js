@@ -6,8 +6,20 @@ const e = React.createElement;
 const Square = ({ row, column }) => {
   // states are '', 'star', 'red'
   const [state, setState] = React.useState('');
-  
-  return `(${row}, ${column})`;
+
+  return e(
+    'div',
+    {
+      style: {
+        backgroundColor: state === 'red' ? 'red' : 'white',
+        margin: 'auto',
+      },
+      onClick: () => {
+        setState(state === 'red' ? '' : 'red')
+      }
+    },
+    `(${row}, ${column})`
+  )
 }
 
 const Board = () => {
@@ -31,8 +43,30 @@ const Board = () => {
   )
 }
 
+const Toolbar = () => {
+  return e(
+    'div',
+    {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+      }
+    },
+    'Toolbar',
+    'FOo',
+    'Bar'
+  )
+}
+
 const App = () => {
-  return e(Board);
+  
+  
+  return e(
+    'div',
+    {},
+    e(Toolbar),
+    e(Board)
+  )
 }
 
 ReactDOM.render(e(App), document.getElementById('app'));
