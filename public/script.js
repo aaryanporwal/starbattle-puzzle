@@ -3,21 +3,36 @@ import ReactDOM from 'https://cdn.skypack.dev/react-dom'
 
 const e = React.createElement;
 
+const Square = ({ row, column }) => {
+  // states are '', 'star', 'red'
+  const [state, setState] = React.useState('');
+  
+  return `(${row}, ${column})`;
+}
+
 const Board = () => {
-  e(
+  const children = [];
+  for (let row = 0; row < 5; row++) {
+    for (let column = 0; column < 5; column++) {
+      children.push(e(Square, { row, column }));
+    }
+  }
+  
+  return e(
     'div',
     {
       style: {
         display: 'grid',
-        gridTem
+        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+        gridTemplateRows: '1fr 1fr 1fr 1fr 1fr',
       }
     },
-    
+    children
   )
 }
 
 const App = () => {
-  return 'App'
+  return e(Board);
 }
 
 ReactDOM.render(e(App), document.getElementById('app'));
