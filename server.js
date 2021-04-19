@@ -20,11 +20,20 @@ const board = new Array(5).fill().map((_, i) =>
 )
 
 io.on('connection', (socket) => {
-  socket.emit('state', {
-    board
-  });
+  socket.emit('state', { board });
+
   socket.on('click', ({ row, column, action }) => {
-    
+    const square = board[row][column];
+    switch (action) {
+      case 'star':
+      case 'cross':
+        square.icon = square.icon === action ? '' : action;
+        break;
+      default:
+        square.color = square.color === action ? '' : action;
+        break;
+    }
+    io.emit('state', { board });
   });
 });
 

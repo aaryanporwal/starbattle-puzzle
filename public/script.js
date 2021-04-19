@@ -22,20 +22,8 @@ const icons = {
   'cross': '❌',
 }
 
-const Square = ({ row, column, state, action }) => {
+const Square = ({ row, column, state, action, onClick }) => {
   const { color, icon } = state;
-
-  /*
-  const onClick = () => {
-    switch (action) {
-      case 'star':
-      case 'cross':
-        return setIcon(icon === action ? '' : action);
-      default:
-        return setColor(color === action ? 'white' : action);
-    }
-  }
-  */
 
   return e(
     'div',
@@ -44,7 +32,7 @@ const Square = ({ row, column, state, action }) => {
         backgroundColor: colorSelected[color],
         borderStyle: 'solid',
       },
-//      onClick
+      onClick
     },
     e(
       'div',
