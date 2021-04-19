@@ -1,5 +1,6 @@
-import React from 'https://cdn.skypack.dev/react'
-import ReactDOM from 'https://cdn.skypack.dev/react-dom'
+import React from 'https://cdn.skypack.dev/react';
+import ReactDOM from 'https://cdn.skypack.dev/react-dom';
+import io from 'https://cdn.skypack.dev/socket.io-client';
 
 const e = React.createElement;
 
@@ -22,9 +23,14 @@ const Square = ({ row, column, action }) => {
   const onClick = () => {
     switch (action) {
       case 'star':
-        setIcon()
+        return setIcon(icon === '★' ? '' : '★');
+      case 'cross':
+        return setIcon(icon === '❌' ? '' : '❌');
+      default:
+        return setColor(color === action ? 'white' : action);
     }
   }
+
   return e(
     'div',
     {
@@ -32,9 +38,7 @@ const Square = ({ row, column, action }) => {
         backgroundColor: colorSelected[color],
         borderStyle: 'solid',
       },
-      onClick: () => {
-        setState(state === action ? 'white' : action)
-      }
+      onClick
     },
     e(
       'div',
