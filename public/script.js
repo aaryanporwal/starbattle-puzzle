@@ -12,13 +12,21 @@ const Square = ({ row, column, action }) => {
     {
       style: {
         backgroundColor: state,
-        margin: 'auto',
-      },
-      onClick: () => {
-        setState(state === action ? 'white' : action)
+        borderStyle: 'solid',        
       }
     },
-    `(${row}, ${column})`
+    e(
+      'div',
+      {
+        style: {
+          margin: 'auto',
+        },
+        onClick: () => {
+          setState(state === action ? 'white' : action)
+        }
+      },
+      `(${row}, ${column})`
+    )
   )
 }
 
@@ -35,8 +43,8 @@ const Board = ({ action }) => {
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-        gridTemplateRows: '1fr 1fr 1fr 1fr 1fr',
+        gridTemplateColumns: 'repeat(5, 100px)',
+        gridTemplateRows: 'repeat(5, 100px)',
       }
     },
     children
