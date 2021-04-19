@@ -31,9 +31,37 @@ const Square = ({ row, column, action }) => {
             setState(state === action ? 'white' : action)
           }
         },
-        
-      )
+        e(
+          'div',
+          {
+            margin: 'auto',
+            fontSize: '72px',
+          },
+          '★'
+        )
+      );
+
     case 'cross':
+      return e(
+        'div',
+        {
+          style: {
+            borderStyle: 'solid',
+          },
+          onClick: () => {
+            setState(state === action ? 'white' : action)
+          }
+        },
+        e(
+          'div',
+          {
+            margin: 'auto',
+            fontSize: '72px',
+          },
+          '❌'
+        )
+      );
+
     default:
       return e(
         'div',
@@ -71,16 +99,50 @@ const Board = ({ action }) => {
   )
 }
 
-const Tool = ({ action, setAction, selected }) =>
-  e(
-    'div',
-    {
-      style: {
-        backgroundColor: selected ? colorSelected[action] : colorUnselected[action],
-      },
-      onClick: () => setAction(action)
-    }
-  )
+const Tool = ({ action, setAction, selected }) => {
+  switch (action) {
+    case 'star':
+      return e(
+        'div',
+        {
+          onClick: () => setAction(action)
+        },
+        e(
+          'div',
+          {
+            margin: 'auto',
+            fontSize: '72px',
+          },
+          '★'
+        )
+      )
+    case 'cross':
+      return e(
+        'div',
+        {
+          onClick: () => setAction(action)
+        },
+        e(
+          'div',
+          {
+            margin: 'auto',
+            fontSize: '72px',
+          },
+          '❌'
+        )
+      )
+    default:
+      return e(
+        'div',
+        {
+          style: {
+            backgroundColor: selected ? colorSelected[action] : colorUnselected[action],
+          },
+          onClick: () => setAction(action)
+        }
+      )
+  }
+}
 
 const Toolbar = ({ action, setAction }) => {
   return (
@@ -96,10 +158,12 @@ const Toolbar = ({ action, setAction }) => {
         {
           style: {
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 50px)',
+            gridTemplateColumns: 'repeat(5, 50px)',
             gridTemplateRows: '50px',
           }
         },
+        e(Tool, { action: 'star', setAction, selected: action === 'star' }),
+        e(Tool, { action: 'cross', setAction, selected: action === 'cross' }),
         e(Tool, { action: 'red', setAction, selected: action === 'red' }),
         e(Tool, { action: 'green', setAction, selected: action === 'green' }),
         e(Tool, { action: 'yellow', setAction, selected: action === 'yellow' }),
