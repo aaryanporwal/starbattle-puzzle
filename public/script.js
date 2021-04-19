@@ -144,33 +144,33 @@ const Tool = ({ action, setAction, selected }) => {
   }
 }
 
-const Toolbar = ({ action, setAction }) => {
-  return (
+const Toolbar = ({ action, setAction }) =>
+  e(
+    'div',
+    {
+       style: {
+         padding: '20px',
+       }
+    },
     e(
       'div',
       {
-         style: {
-           padding: '20px',
-         }
+        style: {
+          display: 'grid',
+          gridTemplateColumns: 'repeat(5, 50px)',
+          gridTemplateRows: '50px',
+        }
       },
-      e(
-        'div',
-        {
-          style: {
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, 50px)',
-            gridTemplateRows: '50px',
-          }
-        },
-        e(Tool, { action: 'star', setAction, selected: action === 'star' }),
-        e(Tool, { action: 'cross', setAction, selected: action === 'cross' }),
-        e(Tool, { action: 'red', setAction, selected: action === 'red' }),
-        e(Tool, { action: 'green', setAction, selected: action === 'green' }),
-        e(Tool, { action: 'yellow', setAction, selected: action === 'yellow' }),
-      )
+      e(Tool, { action: 'star', setAction, selected: action === 'star' }),
+      e(Tool, { action: 'cross', setAction, selected: action === 'cross' }),
+      e(Tool, { action: 'red', setAction, selected: action === 'red' }),
+      e(Tool, { action: 'green', setAction, selected: action === 'green' }),
+      e(Tool, { action: 'yellow', setAction, selected: action === 'yellow' }),
     )
   )
-}
+
+const Title = () =>
+  e('h1', {}, 'Star Battle Puzzle Party')
 
 const App = () => {
   const [action, setAction] = React.useState('green');
@@ -178,6 +178,7 @@ const App = () => {
   return e(
     'div',
     {},
+    e(Title),
     e(Toolbar, { action, setAction }),
     e(Board, { action })
   )
