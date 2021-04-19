@@ -4,11 +4,13 @@ import ReactDOM from 'https://cdn.skypack.dev/react-dom'
 const e = React.createElement;
 
 const colorSelected = {
-  green: 'hsl(0, 50%, )'
+  green: 'hsl(120, 50%, 50%)',
+  red: 'hsl(0, 50%, 50%)'
 }
 
 const colorUnselected = {
-  green: 'hsl(0, 50%, )'
+  green: 'hsl(120, 50%, 40%)',
+  red: 'hsl(0, 50%, 40%)'
 }
 
 const Square = ({ row, column, action }) => {
@@ -19,8 +21,8 @@ const Square = ({ row, column, action }) => {
     'div',
     {
       style: {
-        backgroundColor: state,
-        outline: 'solid',
+        backgroundColor: colorSelected[state],
+        borderStyle: 'solid',
       },
       onClick: () => {
         setState(state === action ? 'white' : action)
@@ -59,21 +61,18 @@ const Board = ({ action }) => {
   )
 }
 
-const Tool = ({ action, selected, onClick }) => {
+const Tool = ({ action, setAction, selected }) =>
   e(
     'div',
     {
       style: {
-        backgroundColor: action,
-        outline: 'solid',
+        height: '50px',
+        width: '50px',
+        backgroundColor: selected ? colorSelected[action] : colorUnselected[action],
       },
-      onClick: () => {
-        setState(state === action ? 'white' : action)
-      }
-      
+      onClick: () => setAction(action)
     }
   )
-}
 
 const Toolbar = ({ action, setAction }) => {  
   return e(
@@ -81,12 +80,12 @@ const Toolbar = ({ action, setAction }) => {
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+        gridTemplateColumns: 'repeat(2, 50px)',
+        gridTemplate
       }
     },
-    'Toolbar',
-    'FOo',
-    'Bar'
+    e(Tool, { action: 'red', setAction, selected: action === 'red' }),
+    e(Tool, { action: 'green', setAction, selected: action === 'green' }),
   )
 }
 
