@@ -16,6 +16,12 @@ const colorUnselected = {
   yellow: 'hsl(50, 50%, 40%)',
 }
 
+const icons = {
+  '': '',
+  'star': '★',
+  'cross': '❌',
+}
+
 const Square = ({ row, column, action }) => {
   const [color, setColor] = React.useState('white');
   const [icon, setIcon] = React.useState('');
@@ -23,9 +29,8 @@ const Square = ({ row, column, action }) => {
   const onClick = () => {
     switch (action) {
       case 'star':
-        return setIcon(icon === '★' ? '' : '★');
       case 'cross':
-        return setIcon(icon === '❌' ? '' : '❌');
+        return setIcon(icon === action ? '' : action);
       default:
         return setColor(color === action ? 'white' : action);
     }
@@ -46,12 +51,12 @@ const Square = ({ row, column, action }) => {
         margin: 'auto',
         fontSize: '72px',
       },
-      icon
+      icons[icon]
     )
   );
 }
 
-const Board = ({ action }) => {
+const Board = ({ action, board }) => {
   const children = [];
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
@@ -151,13 +156,26 @@ const Title = () =>
 
 const App = () => {
   const [action, setAction] = React.useState('green');
+  const [board, setBoard] = React.useState(
+    new Array(5).fill().map((_, i) =>
+      new Array(5).fill().map((_, j) =>
+        ({ color: 'white', icon: 'star' })
+      )
+    )
+  )
+
+  React.useEffect(() => {
+    const socket = io();
+    // indirect through addOffer so it's updated above
+//    socket.on('state', state => addOffer(offer));
+  }, []);  
   
   return e(
     'div',
     {},
     e(Title),
     e(Toolbar, { action, setAction }),
-    e(Board, { action }),
+    e(Board, { action, board }),
     e(Dots, {})
   )
 }

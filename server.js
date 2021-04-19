@@ -13,23 +13,21 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-const state = {
-  board: [
-    [
-      
-    ],
-    [
-      
-    ],
-  ]
-}
+const board = new Array(5).fill().map((_, i) => {
+  return new Array(5).fill().map((_, j) => {
+    if (i === 2 && j === 3) {
+      return { color: 'white', icon: 'star' }
+    } else if (i === 4 && j === 1) {
+      return { color: 'green', icon: '' }
+    } else
+      return { color: 'white', icon: '' }
+  });
+});
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('offer', offer => {
-    console.log(offer);
-    io.emit('offer', offer);
-  })
+  socket.emit('state', {
+    board
+  });
 });
 
 const listener = server.listen(process.env.PORT, () => {
