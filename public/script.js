@@ -16,66 +16,35 @@ const colorUnselected = {
 }
 
 const Square = ({ row, column, action }) => {
-  // states are 'star', 'cross', 'red', 'green', 'yellow', 'white'
-  const [state, setState] = React.useState('white');
+  const [color, setColor] = React.useState('white');
+  const [icon, setIcon] = React.useState('');
 
-  switch (state) {
-    case 'star':
-      return e(
-        'div',
-        {
-          style: {
-            borderStyle: 'solid',
-          },
-          onClick: () => {
-            setState(state === action ? 'white' : action)
-          }
-        },
-        e(
-          'div',
-          {
-            margin: 'auto',
-            fontSize: '72px',
-          },
-          '★'
-        )
-      );
-
-    case 'cross':
-      return e(
-        'div',
-        {
-          style: {
-            borderStyle: 'solid',
-          },
-          onClick: () => {
-            setState(state === action ? 'white' : action)
-          }
-        },
-        e(
-          'div',
-          {
-            margin: 'auto',
-            fontSize: '72px',
-          },
-          '❌'
-        )
-      );
-
-    default:
-      return e(
-        'div',
-        {
-          style: {
-            backgroundColor: colorSelected[state],
-            borderStyle: 'solid',
-          },
-          onClick: () => {
-            setState(state === action ? 'white' : action)
-          }
-        }
-      )
+  const onClick = () => {
+    switch (action) {
+      case 'star':
+        setIcon()
+    }
   }
+  return e(
+    'div',
+    {
+      style: {
+        backgroundColor: colorSelected[color],
+        borderStyle: 'solid',
+      },
+      onClick: () => {
+        setState(state === action ? 'white' : action)
+      }
+    },
+    e(
+      'div',
+      {
+        margin: 'auto',
+        fontSize: '72px',
+      },
+      icon
+    )
+  );
 }
 
 const Board = ({ action }) => {
@@ -169,6 +138,10 @@ const Toolbar = ({ action, setAction }) =>
     )
   )
 
+const Dots = () => {
+  return null;
+}
+
 const Title = () =>
   e('h1', {}, 'Star Battle Puzzle Party')
 
@@ -181,7 +154,7 @@ const App = () => {
     e(Title),
     e(Toolbar, { action, setAction }),
     e(Board, { action }),
-    
+    e(Dots, {})
   )
 }
 
