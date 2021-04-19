@@ -5,39 +5,49 @@ const e = React.createElement;
 
 const colorSelected = {
   green: 'hsl(120, 50%, 50%)',
-  red: 'hsl(0, 50%, 50%)'
+  red: 'hsl(0, 50%, 50%)',
+  yellow: 'hsl(50, 50%, 50%)'
 }
 
 const colorUnselected = {
   green: 'hsl(120, 50%, 40%)',
-  red: 'hsl(0, 50%, 40%)'
+  red: 'hsl(0, 50%, 40%)',
+  yellow: 'hsl(50, 50%, 40%)',
 }
 
 const Square = ({ row, column, action }) => {
-  // states are '', 'star', 'red'
+  // states are 'star', 'cross', 'red', 'green', 'yellow', 'white'
   const [state, setState] = React.useState('white');
 
-  return e(
-    'div',
-    {
-      style: {
-        backgroundColor: colorSelected[state],
-        borderStyle: 'solid',
-      },
-      onClick: () => {
-        setState(state === action ? 'white' : action)
-      }
-    },
-    e(
-      'div',
-      {
-        style: {
-          margin: 'auto',
+  switch (state) {
+    case 'star':
+      return e(
+        'div',
+        {
+          style: {
+            borderStyle: 'solid',
+          },
+          onClick: () => {
+            setState(state === action ? 'white' : action)
+          }
         },
-      },
-      `(${row}, ${column})`
-    )
-  )
+        
+      )
+    case 'cross':
+    default:
+      return e(
+        'div',
+        {
+          style: {
+            backgroundColor: colorSelected[state],
+            borderStyle: 'solid',
+          },
+          onClick: () => {
+            setState(state === action ? 'white' : action)
+          }
+        }
+      )
+  }
 }
 
 const Board = ({ action }) => {
@@ -66,26 +76,35 @@ const Tool = ({ action, setAction, selected }) =>
     'div',
     {
       style: {
-        height: '50px',
-        width: '50px',
         backgroundColor: selected ? colorSelected[action] : colorUnselected[action],
       },
       onClick: () => setAction(action)
     }
   )
 
-const Toolbar = ({ action, setAction }) => {  
-  return e(
-    'div',
-    {
-      style: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 50px)',
-        gridTemplate
-      }
-    },
-    e(Tool, { action: 'red', setAction, selected: action === 'red' }),
-    e(Tool, { action: 'green', setAction, selected: action === 'green' }),
+const Toolbar = ({ action, setAction }) => {
+  return (
+    e(
+      'div',
+      {
+         style: {
+           padding: '20px',
+         }
+      },
+      e(
+        'div',
+        {
+          style: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 50px)',
+            gridTemplateRows: '50px',
+          }
+        },
+        e(Tool, { action: 'red', setAction, selected: action === 'red' }),
+        e(Tool, { action: 'green', setAction, selected: action === 'green' }),
+        e(Tool, { action: 'yellow', setAction, selected: action === 'yellow' }),
+      )
+    )
   )
 }
 
