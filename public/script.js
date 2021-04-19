@@ -22,10 +22,10 @@ const icons = {
   'cross': '❌',
 }
 
-const Square = ({ row, column, action }) => {
-  const [color, setColor] = React.useState('white');
-  const [icon, setIcon] = React.useState('');
+const Square = ({ row, column, state, action }) => {
+  const { color, icon } = state;
 
+  /*
   const onClick = () => {
     switch (action) {
       case 'star':
@@ -35,6 +35,7 @@ const Square = ({ row, column, action }) => {
         return setColor(color === action ? 'white' : action);
     }
   }
+  */
 
   return e(
     'div',
@@ -43,7 +44,7 @@ const Square = ({ row, column, action }) => {
         backgroundColor: colorSelected[color],
         borderStyle: 'solid',
       },
-      onClick
+//      onClick
     },
     e(
       'div',
@@ -56,11 +57,13 @@ const Square = ({ row, column, action }) => {
   );
 }
 
-const Board = ({ action, board }) => {
+const Board = ({ action, board, makeOnClick }) => {
   const children = [];
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
-      children.push(e(Square, { row, column, action }));
+      const state = board[row][column];
+      const onClick = makeOnClick(row, column, action);
+      children.push(e(Square, { state, action, onClick }));
     }
   }
   
@@ -159,23 +162,28 @@ const App = () => {
   const [board, setBoard] = React.useState(
     new Array(5).fill().map((_, i) =>
       new Array(5).fill().map((_, j) =>
-        ({ color: 'white', icon: 'star' })
+        ({ color: 'white', icon: '' })
       )
     )
   )
+  const socket = React.useRef(null);
 
   React.useEffect(() => {
-    const socket = io();
-    // indirect through addOffer so it's updated above
-//    socket.on('state', state => addOffer(offer));
-  }, []);  
+    socket.current = io();
+    socket.current.on('state', state => setBoard(state.board));
+  }, []);
+  
+  const makeOnClick = (row, column, action) => () => {
+    if (!socket.current) return;
+    socket.current.emit('click', { row, column, action });
+  }
   
   return e(
     'div',
     {},
     e(Title),
     e(Toolbar, { action, setAction }),
-    e(Board, { action, board }),
+    e(Board, { action, board, makeOnClick }),
     e(Dots, {})
   )
 }
