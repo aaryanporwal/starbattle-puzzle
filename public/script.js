@@ -3,6 +3,14 @@ import ReactDOM from 'https://cdn.skypack.dev/react-dom'
 
 const e = React.createElement;
 
+const colorSelected = {
+  green: 'hsl(0, 50%, )'
+}
+
+const colorUnselected = {
+  green: 'hsl(0, 50%, )'
+}
+
 const Square = ({ row, column, action }) => {
   // states are '', 'star', 'red'
   const [state, setState] = React.useState('white');
@@ -12,7 +20,10 @@ const Square = ({ row, column, action }) => {
     {
       style: {
         backgroundColor: state,
-        borderStyle: 'solid',        
+        outline: 'solid',
+      },
+      onClick: () => {
+        setState(state === action ? 'white' : action)
       }
     },
     e(
@@ -21,9 +32,6 @@ const Square = ({ row, column, action }) => {
         style: {
           margin: 'auto',
         },
-        onClick: () => {
-          setState(state === action ? 'white' : action)
-        }
       },
       `(${row}, ${column})`
     )
@@ -51,7 +59,23 @@ const Board = ({ action }) => {
   )
 }
 
-const Toolbar = () => {
+const Tool = ({ action, selected, onClick }) => {
+  e(
+    'div',
+    {
+      style: {
+        backgroundColor: action,
+        outline: 'solid',
+      },
+      onClick: () => {
+        setState(state === action ? 'white' : action)
+      }
+      
+    }
+  )
+}
+
+const Toolbar = ({ action, setAction }) => {  
   return e(
     'div',
     {
@@ -72,7 +96,7 @@ const App = () => {
   return e(
     'div',
     {},
-    e(Toolbar),
+    e(Toolbar, { action, setAction }),
     e(Board, { action })
   )
 }
