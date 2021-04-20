@@ -1,62 +1,59 @@
-import React from 'https://cdn.skypack.dev/react';
-import ReactDOM from 'https://cdn.skypack.dev/react-dom';
-import * as Immer from 'https://cdn.skypack.dev/immer';
-import io from 'https://cdn.skypack.dev/socket.io-client';
+import React from "https://cdn.skypack.dev/react";
+import ReactDOM from "https://cdn.skypack.dev/react-dom";
+import * as Immer from "https://cdn.skypack.dev/immer";
+import io from "https://cdn.skypack.dev/socket.io-client";
 
 const e = React.createElement;
 
 const colorSelected = {
-  green: 'hsl(120, 50%, 50%)',
-  red: 'hsl(0, 50%, 50%)',
-  yellow: 'hsl(50, 50%, 50%)'
-}
+  green: "hsl(120, 50%, 50%)",
+  red: "hsl(0, 50%, 50%)",
+  yellow: "hsl(50, 50%, 50%)"
+};
 
 const colorUnselected = {
-  green: 'hsl(120, 50%, 40%)',
-  red: 'hsl(0, 50%, 40%)',
-  yellow: 'hsl(50, 50%, 40%)',
-}
+  green: "hsl(120, 50%, 40%)",
+  red: "hsl(0, 50%, 40%)",
+  yellow: "hsl(50, 50%, 40%)"
+};
 
 const icons = {
-  '': '',
-  'star': '★',
-  'cross': '❌',
-}
+  "": "",
+  star: "★",
+  cross: "❌"
+};
 
 function borderStyle(wall) {
-  return wall === '#' ? '2px' : '1px'
+  return wall === "#" ? "2px" : "1px";
 }
 
-const Square = ({
-  row, column, state, onClick,
-  top, bottom, left, right
-}) => {
+const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
   const { color, icon } = state;
 
   return e(
-    'div',
+    "div",
     {
       style: {
         backgroundColor: colorSelected[color],
-        borderStyle: 'solid',
+        borderStyle: "solid",
         borderTopWidth: borderStyle(top),
         borderBottomWidth: borderStyle(bottom),
         borderLeftWidth: borderStyle(left),
-        borderRightWidth: borderStyle(right),
+        borderRightWidth: borderStyle(right)
       },
       onClick
     },
     e(
-      'div',
+      "div",
       {
-        margin: 'auto',
-        fontSize: '72px',
+        margin: "auto",
+        fontSize: "72px"
       },
       icons[icon]
     )
   );
-}
-    
+};
+
 const Board = ({ puzzle, board, size, makeOnClick }) => {
   const children = [];
   const { columns, rows } = puzzle.borders;
@@ -68,125 +65,137 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
       const right = rows[row][column + 1];
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
-      children.push(
-        e(
-          Square,
-          { state, onClick, top, bottom, left, right }
-        )
-      );
+      children.push(e(Square, { state, onClick, top, bottom, left, right }));
     }
   }
-  
+
   return e(
-    'div',
+    "div",
     {
       style: {
-        display: 'grid',
+        display: "grid",
         gridTemplateColumns: `repeat(5, ${size}px)`,
-        gridTemplateRows: `repeat(5, ${size}px)`,
+        gridTemplateRows: `repeat(5, ${size}px)`
       }
     },
     children
-  )
-}
+  );
+};
 
 const Tool = ({ action, setAction, selected }) => {
   switch (action) {
-    case 'star':
+    case "star":
       return e(
-        'div',
+        "div",
         {
           onClick: () => setAction(action)
         },
         e(
-          'div',
+          "div",
           {
-            margin: 'auto',
-            fontSize: '72px',
+            margin: "auto",
+            fontSize: "72px"
           },
-          '★'
+          "★"
         )
-      )
-    case 'cross':
+      );
+    case "cross":
       return e(
-        'div',
+        "div",
         {
           onClick: () => setAction(action)
         },
         e(
-          'div',
+          "div",
           {
-            margin: 'auto',
-            fontSize: '72px',
+            margin: "auto",
+            fontSize: "72px"
           },
-          '❌'
+          "❌"
         )
-      )
+      );
     default:
-      return e(
-        'div',
-        {
-          style: {
-            backgroundColor: selected ? colorSelected[action] : colorUnselected[action],
-          },
-          onClick: () => setAction(action)
-        }
-      )
+      return e("div", {
+        style: {
+          backgroundColor: selected
+            ? colorSelected[action]
+            : colorUnselected[action]
+        },
+        onClick: () => setAction(action)
+      });
   }
-}
+};
 
 const Toolbar = ({ action, setAction }) =>
   e(
-    'div',
+    "div",
     {
-       style: {
-         padding: '20px',
-       }
+      style: {
+        padding: "20px"
+      }
     },
     e(
-      'div',
+      "div",
       {
         style: {
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 50px)',
-          gridTemplateRows: '50px',
+          display: "grid",
+          gridTemplateColumns: "repeat(5, 50px)",
+          gridTemplateRows: "50px"
         }
       },
-      e(Tool, { action: 'star', setAction, selected: action === 'star' }),
-      e(Tool, { action: 'cross', setAction, selected: action === 'cross' }),
-      e(Tool, { action: 'red', setAction, selected: action === 'red' }),
-      e(Tool, { action: 'green', setAction, selected: action === 'green' }),
-      e(Tool, { action: 'yellow', setAction, selected: action === 'yellow' }),
+      e(Tool, { action: "star", setAction, selected: action === "star" }),
+      e(Tool, { action: "cross", setAction, selected: action === "cross" }),
+      e(Tool, { action: "red", setAction, selected: action === "red" }),
+      e(Tool, { action: "green", setAction, selected: action === "green" }),
+      e(Tool, { action: "yellow", setAction, selected: action === "yellow" })
     )
-  )
+  );
 
-const SnapshotButton = ({ onSnapshot }) =>
-  e('button', { onClick: onSnapshot }, 'Take snapshot')
-
-const Snapshots = ({ puzzle, snapshots, onSnapshot }) =>
+const SnapshotButton = ({ takeSnapshot }) =>
   e(
-    'div',
+    "button",
     {
-      
+      style: {
+        margin: "10px"
+      },
+      onClick: takeSnapshot
     },
-    e(SnapshotButton, { onSnapshot }),
+    "Take snapshot"
+  );
+
+const Snapshots = ({ puzzle, snapshots, takeSnapshot, restoreSnapshot }) =>
+  e(
+    "div",
+    {
+      style: {}
+    },
+    e(SnapshotButton, { takeSnapshot }),
     e(
-      'div',
+      "div",
       {
         style: {
-          display: 'flex'
+          display: "flex"
         }
       },
       ...snapshots.map(board =>
-        e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} }))
+        e(
+          "div",
+          {
+            style: {
+              margin: '10px',
+            },
+            onClick: restoreSnapshot(board)
+          },
+          e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} })
+        )
+      )
     )
-  )
+  );
 
-const Title = () =>
-  e('h1', {}, 'Star Battle Puzzle Party')
+const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
 const App = () => {
-  const [action, setAction] = React.useState('green');
+  const [action, setAction] = React.useState("green");
   const [puzzle, setPuzzle] = React.useState(null);
   const [board, setBoard] = React.useState(null);
   const [snapshots, setSnapshots] = React.useState([]);
@@ -194,42 +203,50 @@ const App = () => {
 
   React.useEffect(() => {
     socket.current = io();
-    socket.current.on('state', state => setBoard(state.board));
-    socket.current.on('puzzle', puzzle => setPuzzle(puzzle));
-    socket.current.on('snapshots', snapshots => setSnapshots(snapshots));
+    socket.current.on("state", state => setBoard(state.board));
+    socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
+    socket.current.on("snapshots", snapshots => setSnapshots(snapshots));
   }, []);
-  
+
   const makeOnClick = (row, column) => () => {
-    setBoard(Immer.produce(board, board => {
-      const square = board[row][column];
-      switch (action) {
-        case 'star':
-        case 'cross':
-          square.icon = square.icon === action ? '' : action;
-          break;
-        default:
-          square.color = square.color === action ? '' : action;
-          break;
-      }
-    }));
+    setBoard(
+      Immer.produce(board, board => {
+        const square = board[row][column];
+        switch (action) {
+          case "star":
+          case "cross":
+            square.icon = square.icon === action ? "" : action;
+            break;
+          default:
+            square.color = square.color === action ? "" : action;
+            break;
+        }
+      })
+    );
     if (!socket.current) return;
-    socket.current.emit('click', { row, column, action });
-  }
-  
-  const onSnapshot = () => {
+    socket.current.emit("click", { row, column, action });
+  };
+
+  const takeSnapshot = () => {
     if (!socket.current) return;
-    socket.current.emit('snapshot');    
-  }
-  
+    socket.current.emit("takeSnapshot");
+  };
+
+  const restoreSnapshot = (board) => {
+    if (!socket.current) return;
+    socket.current.emit("restoreSnapshot", board);
+  };
+
   return e(
-    'div',
+    "div",
     {},
     e(Title),
     e(Toolbar, { action, setAction }),
-    (puzzle && board) ?
-      e(Board, { action, puzzle, board, size: 100, makeOnClick }) : null,
-    e(Snapshots, { puzzle, snapshots, onSnapshot }),
-  )
-}
+    puzzle && board
+      ? e(Board, { action, puzzle, board, size: 100, makeOnClick })
+      : null,
+    e(Snapshots, { puzzle, snapshots, takeSnapshot, restoreSnapshot })
+  );
+};
 
-ReactDOM.render(e(App), document.getElementById('app'));
+ReactDOM.render(e(App), document.getElementById("app"));

@@ -35,7 +35,7 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-let board = new Array(5).fill().map((_, i) =>
+let globalBoard = new Array(5).fill().map((_, i) =>
   new Array(5).fill().map((_, j) =>
     ({ color: 'white', icon: '' })
   )
@@ -45,11 +45,11 @@ const snapshots = [];
 
 io.on('connection', (socket) => {
   socket.emit('puzzle', puzzle);
-  socket.emit('state', { board });
+  socket.emit('board', globalBoard);
   socket.emit('snapshots', snapshots);
 
   socket.on('click', ({ row, column, action }) => {
-    board = Immer.produce(board, board => {
+    globalBoard = Immer.produce(globalBoard, board => {
       const square = board[row][column];
       switch (action) {
         case 'star':
@@ -61,11 +61,18 @@ io.on('connection', (socket) => {
           break;
       }
     });
-    io.emit('state', { board });
+    io.emit('board', globalBoard);
   });
 
-  socket.on('snapshot', () => {
-    snapshots.push(board);
+  socket.on('takeSnapshot', () => {
+    snapshots.push(globalBoard);
+    io.emit('snapshots', snapshots);
+  });
+
+  socket.on('restoreSnapshot', (board) => {
+    snapshots.push(globalBoard);
+    globalBoard = board;
+    io.emit('board', globalBoard);
     io.emit('snapshots', snapshots);
   });
 });
