@@ -1,5 +1,6 @@
 dependencies:
   express: 4.17.1
+  immer: 9.0.1
   socket.io: 4.0.1
 packages:
   /@types/component-emitter/1.2.10:
@@ -270,6 +271,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
+  /immer/9.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-7CCw1DSgr8kKYXTYOI1qMM/f5qxT5vIVMeGLDCDX8CSxsggr1Sjdoha4OhsP0AZ1UvWbyZlILHvLjaynuu02Mg==
   /inherits/2.0.3:
     dev: false
     resolution:
@@ -521,4 +526,5 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   express: ^4.17.1
+  immer: ^9.0.0
   socket.io: ^4.0.1

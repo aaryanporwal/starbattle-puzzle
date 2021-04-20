@@ -160,6 +160,16 @@ const Toolbar = ({ action, setAction }) =>
     )
   )
 
+const SnapshotButton = ({ onSnapshot }) =>
+  e('button', { onClick: onSnapshot }, 'Take snapshot')
+
+const Snapshots = ({ snapshots, onSnapshot }) =>
+  e(
+    'div',
+    {},
+    e(SnapshotButton, { onSnapshot }),
+    e('div', {}, JSON.stringify(snapshots))
+  )
 
 const Title = () =>
   e('h1', {}, 'Star Battle Puzzle Party')
@@ -168,12 +178,14 @@ const App = () => {
   const [action, setAction] = React.useState('green');
   const [puzzle, setPuzzle] = React.useState(null);
   const [board, setBoard] = React.useState(null);
+  const [snapshots, setSnapshots] = React.useState([]);
   const socket = React.useRef(null);
 
   React.useEffect(() => {
     socket.current = io();
     socket.current.on('state', state => setBoard(state.board));
     socket.current.on('puzzle', puzzle => setPuzzle(puzzle));
+    socket.current.on('snapshots', snapshots => setSnapshots(snapshots));
   }, []);
   
   const makeOnClick = (row, column, action) => () => {
@@ -193,6 +205,11 @@ const App = () => {
     socket.current.emit('click', { row, column, action });
   }
   
+  const onSnapshot = () => {
+    if (!socket.current) return;
+    socket.current.emit('snapshot');    
+  }
+  
   return e(
     'div',
     {},
@@ -200,6 +217,7 @@ const App = () => {
     e(Toolbar, { action, setAction }),
     (puzzle && board) ?
       e(Board, { action, puzzle, board, makeOnClick }) : null,
+    e(Snapshots, { snapshots, onSnapshot }),
   )
 }
 

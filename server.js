@@ -1,3 +1,4 @@
+const Immer = require('immer');
 const express = require("express");
 const app = express();
 const http = require('http');
@@ -34,7 +35,7 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-const board = new Array(5).fill().map((_, i) =>
+let board = new Array(5).fill().map((_, i) =>
   new Array(5).fill().map((_, j) =>
     ({ color: 'white', icon: '' })
   )
@@ -48,17 +49,24 @@ io.on('connection', (socket) => {
   socket.emit('snapshots', snapshots);
 
   socket.on('click', ({ row, column, action }) => {
-    const square = board[row][column];
-    switch (action) {
-      case 'star':
-      case 'cross':
-        square.icon = square.icon === action ? '' : action;
-        break;
-      default:
-        square.color = square.color === action ? '' : action;
-        break;
-    }
+    board = Immer.produce(board, board => {
+      const square = board[row][column];
+      switch (action) {
+        case 'star':
+        case 'cross':
+          square.icon = square.icon === action ? '' : action;
+          break;
+        default:
+          square.color = square.color === action ? '' : action;
+          break;
+      }
+    });
     io.emit('state', { board });
+  });
+
+  socket.on('snapshot', () => {
+    snapshots.push(board);
+    io.emit('snapshots', snapshots);
   });
 });
 
