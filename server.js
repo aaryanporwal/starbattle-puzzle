@@ -13,15 +13,14 @@ const puzzle = {
       '#|#|##',
       '####|#',
       '#|#||#',
-      [#||||#],
+      '#||||#',
     ],
     columns: [
-      [],
-      [],
-      [],
-      [],
-      [],
-      
+      '#|#||#',
+      '#||#|#',
+      '##|###',
+      '######',
+      '#||###',
     ],
   }
 }
@@ -42,6 +41,7 @@ const board = new Array(5).fill().map((_, i) =>
 )
 
 io.on('connection', (socket) => {
+  socket.emit('puzzle', puzzle);
   socket.emit('state', { board });
 
   socket.on('click', ({ row, column, action }) => {

@@ -46,7 +46,7 @@ const Square = ({ row, column, state, action, onClick }) => {
   );
 }
 
-const Board = ({ action, board, makeOnClick }) => {
+const Board = ({ action, puzzle, board, makeOnClick }) => {
   const children = [];
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
@@ -148,18 +148,14 @@ const Title = () =>
 
 const App = () => {
   const [action, setAction] = React.useState('green');
-  const [board, setBoard] = React.useState(
-    new Array(5).fill().map((_, i) =>
-      new Array(5).fill().map((_, j) =>
-        ({ color: 'white', icon: '' })
-      )
-    )
-  )
+  const [puzzle, setPuzzle] = React.useState(null);
+  const [board, setBoard] = React.useState(null);
   const socket = React.useRef(null);
 
   React.useEffect(() => {
     socket.current = io();
     socket.current.on('state', state => setBoard(state.board));
+    socket.current.on('puzzle', puzzle => setPuzzle(puzzle));
   }, []);
   
   const makeOnClick = (row, column, action) => () => {
@@ -184,7 +180,8 @@ const App = () => {
     {},
     e(Title),
     e(Toolbar, { action, setAction }),
-    e(Board, { action, board, makeOnClick }),
+    (puzzle && board) ?
+      e(Board, { action, puzzle, board, makeOnClick }) : null,
     e(Dots, {})
   )
 }
