@@ -4,6 +4,28 @@ const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
+const puzzle = {
+  stars: 1,
+  size: 5,
+  borders: {
+    rows: [
+      '#|#||#',
+      '#|#|##',
+      '####|#',
+      '#|#||#',
+      [#||||#],
+    ],
+    columns: [
+      [],
+      [],
+      [],
+      [],
+      [],
+      
+    ],
+  }
+}
+
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
