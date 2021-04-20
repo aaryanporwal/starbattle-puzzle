@@ -28,7 +28,7 @@ function borderStyle(wall) {
 }
 
 const Square = ({
-  row, column, state, action, onClick,
+  row, column, state, onClick,
   top, bottom, left, right
 }) => {
   const { color, icon } = state;
@@ -57,7 +57,7 @@ const Square = ({
   );
 }
     
-const Board = ({ action, puzzle, board, makeOnClick }) => {
+const Board = ({ puzzle, board, size, makeOnClick }) => {
   const children = [];
   const { columns, rows } = puzzle.borders;
   for (let row = 0; row < 5; row++) {
@@ -67,11 +67,11 @@ const Board = ({ action, puzzle, board, makeOnClick }) => {
       const left = rows[row][column];
       const right = rows[row][column + 1];
       const state = board[row][column];
-      const onClick = makeOnClick(row, column, action);
+      const onClick = makeOnClick(row, column);
       children.push(
         e(
           Square,
-          { state, action, onClick, top, bottom, left, right }
+          { state, onClick, top, bottom, left, right }
         )
       );
     }
@@ -82,8 +82,8 @@ const Board = ({ action, puzzle, board, makeOnClick }) => {
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 100px)',
-        gridTemplateRows: 'repeat(5, 100px)',
+        gridTemplateColumns: `repeat(5, ${size}px)`,
+        gridTemplateRows: `repeat(5, ${size}px)`,
       }
     },
     children
@@ -163,12 +163,23 @@ const Toolbar = ({ action, setAction }) =>
 const SnapshotButton = ({ onSnapshot }) =>
   e('button', { onClick: onSnapshot }, 'Take snapshot')
 
-const Snapshots = ({ snapshots, onSnapshot }) =>
+const Snapshots = ({ puzzle, snapshots, onSnapshot }) =>
   e(
     'div',
-    {},
+    {
+      
+    },
     e(SnapshotButton, { onSnapshot }),
-    e('div', {}, JSON.stringify(snapshots))
+    e(
+      'div',
+      {
+        style: {
+          display: 'flex'
+        }
+      },
+      ...snapshots.map(board =>
+        e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} }))
+    )
   )
 
 const Title = () =>
@@ -188,7 +199,7 @@ const App = () => {
     socket.current.on('snapshots', snapshots => setSnapshots(snapshots));
   }, []);
   
-  const makeOnClick = (row, column, action) => () => {
+  const makeOnClick = (row, column) => () => {
     setBoard(Immer.produce(board, board => {
       const square = board[row][column];
       switch (action) {
@@ -216,8 +227,8 @@ const App = () => {
     e(Title),
     e(Toolbar, { action, setAction }),
     (puzzle && board) ?
-      e(Board, { action, puzzle, board, makeOnClick }) : null,
-    e(Snapshots, { snapshots, onSnapshot }),
+      e(Board, { action, puzzle, board, size: 100, makeOnClick }) : null,
+    e(Snapshots, { puzzle, snapshots, onSnapshot }),
   )
 }
 
