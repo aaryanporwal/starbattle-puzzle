@@ -184,7 +184,7 @@ const Snapshots = ({ puzzle, snapshots, takeSnapshot, restoreSnapshot }) =>
             style: {
               margin: "10px"
             },
-            onClick: restoreSnapshot(board)
+            onClick: () => restoreSnapshot(board)
           },
           e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} })
         )
