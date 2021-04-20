@@ -23,7 +23,14 @@ const icons = {
   'cross': '❌',
 }
 
-const Square = ({ row, column, state, action, onClick }) => {
+function borderStyle(wall) {
+  return wall === '#' ? 'thick' : 'thin'
+}
+
+const Square = ({
+  row, column, state, action, onClick,
+  top, bottom, left, right
+}) => {
   const { color, icon } = state;
 
   return e(
@@ -32,6 +39,10 @@ const Square = ({ row, column, state, action, onClick }) => {
       style: {
         backgroundColor: colorSelected[color],
         borderStyle: 'solid',
+        borderTopWidth: borderStyle(top),
+        borderBottomWidth: borderStyle(bottom),
+        borderLeftWidth: borderStyle(left),
+        borderRightWidth: borderStyle(right),
       },
       onClick
     },
@@ -45,14 +56,24 @@ const Square = ({ row, column, state, action, onClick }) => {
     )
   );
 }
-
+    
 const Board = ({ action, puzzle, board, makeOnClick }) => {
   const children = [];
+  const { columns, rows } = puzzle.borders;
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
+      const top = columns[column][row];
+      const bottom = columns[column][row + 1];
+      const left = rows[row][column];
+      const right = rows[row][column + 1];
       const state = board[row][column];
       const onClick = makeOnClick(row, column, action);
-      children.push(e(Square, { state, action, onClick }));
+      children.push(
+        e(
+          Square,
+          { state, action, onClick, top, bottom, left, right }
+        )
+      );
     }
   }
   
