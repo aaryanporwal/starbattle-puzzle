@@ -24,7 +24,7 @@ const icons = {
 }
 
 function borderStyle(wall) {
-  return wall === '#' ? 'thick' : 'thin'
+  return wall === '#' ? '2px' : '1px'
 }
 
 const Square = ({
