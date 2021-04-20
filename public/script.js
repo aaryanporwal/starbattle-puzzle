@@ -1,5 +1,6 @@
 import React from 'https://cdn.skypack.dev/react';
 import ReactDOM from 'https://cdn.skypack.dev/react-dom';
+import * as Immer from 'https://cdn.skypack.dev/immer';
 import io from 'https://cdn.skypack.dev/socket.io-client';
 
 const e = React.createElement;
@@ -162,19 +163,20 @@ const App = () => {
   }, []);
   
   const makeOnClick = (row, column, action) => () => {
-    const square = board[row][column];
-    switch (action) {
-      case 'star':
-      case 'cross':
-        square.icon = square.icon === action ? '' : action;
-        break;
-      default:
-        square.color = square.color === action ? '' : action;
-        break;
-    }
-    setBoard(board);
+    setBoard(Immer.produce(board, board => {
+      const square = board[row][column];
+      switch (action) {
+        case 'star':
+        case 'cross':
+          square.icon = square.icon === action ? '' : action;
+          break;
+        default:
+          square.color = square.color === action ? '' : action;
+          break;
+      }
+    }));
     if (!socket.current) return;
-    // socket.current.emit('click', { row, column, action });
+    socket.current.emit('click', { row, column, action });
   }
   
   return e(
