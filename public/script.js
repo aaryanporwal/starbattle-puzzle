@@ -182,7 +182,7 @@ const Snapshots = ({ puzzle, snapshots, takeSnapshot, restoreSnapshot }) =>
           "div",
           {
             style: {
-              margin: '10px',
+              margin: "10px"
             },
             onClick: restoreSnapshot(board)
           },
@@ -203,9 +203,25 @@ const App = () => {
 
   React.useEffect(() => {
     socket.current = io();
-    socket.current.on("state", state => setBoard(state.board));
-    socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
-    socket.current.on("snapshots", snapshots => setSnapshots(snapshots));
+    socket.current.on("foo", foo => {
+      console.log("foo");
+      console.log(foo);
+    });
+    socket.current.on("board", board => {
+      console.log("board");
+      console.log(board);
+      setBoard(board);
+    });
+    socket.current.on("puzzle", puzzle => {
+      console.log(`puzzle`);
+      console.log(puzzle);
+      setPuzzle(puzzle);
+    });
+    socket.current.on("snapshots", snapshots => {
+      console.log("snapshots");
+      console.log(snapshots);
+      setSnapshots(snapshots);
+    });
   }, []);
 
   const makeOnClick = (row, column) => () => {
@@ -232,7 +248,7 @@ const App = () => {
     socket.current.emit("takeSnapshot");
   };
 
-  const restoreSnapshot = (board) => {
+  const restoreSnapshot = board => {
     if (!socket.current) return;
     socket.current.emit("restoreSnapshot", board);
   };
