@@ -44,10 +44,9 @@ let globalBoard = new Array(5).fill().map((_, i) =>
 const snapshots = [];
 
 io.on('connection', (socket) => {
-  socket.emit('foo', 'bar');
-  // socket.emit('puzzle', puzzle);
+  socket.emit('puzzle', puzzle);
   socket.emit('board', globalBoard);
-  // socket.emit('snapshots', snapshots);
+  socket.emit('snapshots', snapshots);
 
   socket.on('click', ({ row, column, action }) => {
     globalBoard = Immer.produce(globalBoard, board => {
