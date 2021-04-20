@@ -40,9 +40,12 @@ const board = new Array(5).fill().map((_, i) =>
   )
 )
 
+const snapshots = [];
+
 io.on('connection', (socket) => {
   socket.emit('puzzle', puzzle);
   socket.emit('state', { board });
+  socket.emit('snapshots', snapshots);
 
   socket.on('click', ({ row, column, action }) => {
     const square = board[row][column];

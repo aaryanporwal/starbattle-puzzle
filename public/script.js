@@ -160,9 +160,6 @@ const Toolbar = ({ action, setAction }) =>
     )
   )
 
-const Dots = () => {
-  return null;
-}
 
 const Title = () =>
   e('h1', {}, 'Star Battle Puzzle Party')
@@ -203,7 +200,6 @@ const App = () => {
     e(Toolbar, { action, setAction }),
     (puzzle && board) ?
       e(Board, { action, puzzle, board, makeOnClick }) : null,
-    e(Dots, {})
   )
 }
 
