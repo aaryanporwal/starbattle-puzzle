@@ -162,8 +162,19 @@ const App = () => {
   }, []);
   
   const makeOnClick = (row, column, action) => () => {
+    const square = board[row][column];
+    switch (action) {
+      case 'star':
+      case 'cross':
+        square.icon = square.icon === action ? '' : action;
+        break;
+      default:
+        square.color = square.color === action ? '' : action;
+        break;
+    }
+    setBoard(board);
     if (!socket.current) return;
-    socket.current.emit('click', { row, column, action });
+    // socket.current.emit('click', { row, column, action });
   }
   
   return e(
