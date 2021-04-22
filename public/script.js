@@ -24,7 +24,7 @@ const icons = {
 };
 
 function borderStyle(wall) {
-  return wall === "#" ? "2px" : "1px";
+  return wall === "#" ? "solid blue 2px" : "solid black 1px";
 }
 
 const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
@@ -35,11 +35,10 @@ const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
     {
       style: {
         backgroundColor: colorSelected[color],
-        borderStyle: "solid",
-        borderTopWidth: borderStyle(top),
-        borderBottomWidth: borderStyle(bottom),
-        borderLeftWidth: borderStyle(left),
-        borderRightWidth: borderStyle(right)
+        borderTop: borderStyle(top),
+        borderBottom: borderStyle(bottom),
+        borderLeft: borderStyle(left),
+        borderRight: borderStyle(right)
       },
       onClick
     },
@@ -76,9 +75,8 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
         display: "grid",
         gridTemplateColumns: `repeat(5, ${size}px)`,
         gridTemplateRows: `repeat(5, ${size}px)`,
-        borderStyle: "solid",
-        borderWidth: borderStyle('#'),
-        width: 'calc(5, ${size}px)'
+        border: borderStyle('#'),
+        maxWidth: `${5 * size + 4}px`, // +4 to account
       }
     },
     children
