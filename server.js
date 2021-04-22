@@ -29,6 +29,14 @@ let globalBoard = new Array(5)
     new Array(5).fill().map((_, j) => ({ color: "white", icon: "" }))
   );
 
+const clearGlobalBoard = () =>{
+  globalBoard = new Array(5)
+  .fill()
+  .map((_, i) =>
+    new Array(5).fill().map((_, j) => ({ color: "white", icon: "" }))
+  );
+}
+
 const snapshots = [];
 
 io.on("connection", socket => {
@@ -67,7 +75,10 @@ io.on("connection", socket => {
 
   socket.on("reset", () => {
     snapshots.splice(0, snapshots.length);
+    clearGlobalBoard()
     io.emit("snapshots", snapshots)
+    io.emit("board", globalBoard)
+    
   });
 });
 

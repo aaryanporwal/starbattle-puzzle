@@ -163,6 +163,8 @@ const SnapshotButton = ({ takeSnapshot }) =>
     "Take snapshot"
   );
 
+
+
 const Snapshots = ({ puzzle, snapshots, takeSnapshot, restoreSnapshot }) =>
   e(
     "div",
@@ -191,6 +193,17 @@ const Snapshots = ({ puzzle, snapshots, takeSnapshot, restoreSnapshot }) =>
       )
     )
   );
+
+const Reset = ({reset}) => 
+e(
+"button", {
+  style:{
+    margin: "10px"
+  },
+  onClick: reset
+},
+  "Reset Game"
+)
 
 const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
@@ -236,6 +249,10 @@ const App = () => {
     if (!socket.current) return;
     socket.current.emit("restoreSnapshot", board);
   };
+  
+  const reset = () =>{
+    socket.current.emit("reset")
+  }
 
   return e(
     "div",
@@ -245,7 +262,8 @@ const App = () => {
     puzzle && board
       ? e(Board, { action, puzzle, board, size: 100, makeOnClick })
       : null,
-    e(Snapshots, { puzzle, snapshots, takeSnapshot, restoreSnapshot })
+    e(Snapshots, { puzzle, snapshots, takeSnapshot, restoreSnapshot }),
+    e(Reset, {reset})
   );
 };
 
