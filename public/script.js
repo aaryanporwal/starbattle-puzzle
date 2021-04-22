@@ -76,7 +76,8 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
         gridTemplateColumns: `repeat(5, ${size}px)`,
         gridTemplateRows: `repeat(5, ${size}px)`,
         border: borderStyle('#'),
-        maxWidth: `${5 * size + 4}px`, // +4 to account
+        // without an explicit maxWidth, the grid takes up the whole width ?
+        maxWidth: `${5 * size + 4}px`, // +4 to account for border
       }
     },
     children
