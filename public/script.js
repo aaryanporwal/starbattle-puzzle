@@ -75,7 +75,10 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
       style: {
         display: "grid",
         gridTemplateColumns: `repeat(5, ${size}px)`,
-        gridTemplateRows: `repeat(5, ${size}px)`
+        gridTemplateRows: `repeat(5, ${size}px)`,
+        borderStyle: "solid",
+        borderWidth: borderStyle('#'),
+        width: 'calc(5, ${size}px)'
       }
     },
     children
