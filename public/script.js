@@ -47,9 +47,15 @@ const Star = ({ size }) =>
       'polygon',
       {
         // points of the star lie on a circle with radius size / 2
-        //  4/5 pi for each point
+        // with an angle of 2/5 pi between each
+        // to draw the star, sweep an angle by 4/5 pi so we hit every other point
+        // the point at angle 0 is at the middle right of the circle
+        // so the top point is at
+        // but this results in a rotated star
+        // so rotate back by half the distance between two points of the star
+        // or 1/5 pi
         points: new Array(5).fill().map((_, i) => {
-          const theta = 2 * Math.PI * ((i * 2 - .25) / 5);
+          const theta = (4 / 5) * Math.PI * i - (0/ 10) * Math.PI;
           const x = size / 2 + Math.cos(theta) * size / 2;
           const y = size / 2 + Math.sin(theta) * size / 2;
           return `${x} ${y}`
