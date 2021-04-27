@@ -36,6 +36,29 @@ const Cross = ({ size }) =>
     ),
   )
 
+const Star = ({ size }) =>
+  e(
+    'svg',
+    {
+      width: size,
+      height: size
+    },
+    e(
+      'polygon',
+      {
+        points: new Array(5).fill().map((_, i) => {
+          const theta = 2 * Math.PI * (((i - .125) * 2) / 5);
+          const x = size / 2 + Math.cos(theta) * size / 2;
+          const y = size / 2 + Math.sin(theta) * size / 2;
+          return `${x} ${y}`
+        }).join(' '),
+        //points: "50 160 55 180 70 180 60 190 65 205 50 195 35 205 40 190 30 180 45 180",
+        stroke: "black",
+        strokeWidth: "1"
+      }
+    )
+  )
+
 const colorSelected = {
   green: "hsl(120, 50%, 50%)",
   red: "hsl(0, 50%, 50%)",
@@ -80,7 +103,7 @@ const Square = ({ size, row, column, state, onClick, top, bottom, left, right })
           margin: 'auto',
         }
       },
-      icon === 'cross' ? e(Cross, { size: size / 2 }) : icons[icon]
+      icon === 'cross' ? e(Cross, { size: size / 2 }) : e(Star, { size: size / 2 })
     )
   );
 };
