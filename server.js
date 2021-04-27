@@ -5,14 +5,24 @@ const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
-const puzzle = {
+let current_puzzle = "puzzle_1";  
+const puzzles = 
+  { puzzle_1 : 
+  {
   stars: 1,
   size: 5,
   borders: {
     rows: ["#|#||#", "#|#|##", "####|#", "#|#||#", "#||||#"],
     columns: ["#|#||#", "#||#|#", "##|###", "######", "#||###"]
   }
-};
+}, puzzle_2 : {
+  stars: 1,
+  size: 5,
+  borders: {
+    rows: ["#|#||#","##|#|#","####|#","#|##|#","#|#||#"],
+    columns: ["#|#||#","##|#|#","#|#|##","##|||#","##|||#"]
+  }
+}};
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -40,7 +50,7 @@ const clearGlobalBoard = () =>{
 const snapshots = [];
 
 io.on("connection", socket => {
-  socket.emit("puzzle", puzzle);
+  socket.emit("puzzle", puzzle.current_puzzle);
   socket.emit("board", globalBoard);
   socket.emit("snapshots", snapshots);
 
