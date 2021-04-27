@@ -5,7 +5,7 @@ import io from "https://cdn.skypack.dev/socket.io-client";
 
 const e = React.createElement;
 
-const Cross = (size) =>
+const Cross = ({ size }) =>
   e(
     'svg',
     {
@@ -13,21 +13,27 @@ const Cross = (size) =>
       height: size,
     },
     e(
-      'path',
+      'line',
       {
-        d: "M5.5 156L157.5 6.99998",
+        x1: 0,
+        y1: 0,
+        x2: size,
+        y2: size,
         stroke: "#FF0000",
-        strokeWidth: "15"
+        strokeWidth: size / 5
       }
     ),
     e(
-      'path',
+      'line',
       {
-        d: "M158.477 158.548L5.5 7.5",
+        x1: 0,
+        y1: size,
+        x2: size,
+        y2: 0,
         stroke: "#FF0000",
-        strokeWidth: "15"
+        strokeWidth: size / 5
       }
-    )
+    ),
   )
 
 const colorSelected = {
@@ -52,13 +58,14 @@ function borderStyle(wall) {
   return wall === "#" ? "solid blue 2px" : "solid black 1px";
 }
 
-const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
+const Square = ({ size, row, column, state, onClick, top, bottom, left, right }) => {
   const { color, icon } = state;
 
   return e(
     "div",
     {
       style: {
+        display: 'grid',
         backgroundColor: colorSelected[color],
         borderTop: borderStyle(top),
         borderBottom: borderStyle(bottom),
@@ -69,11 +76,11 @@ const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
     },
     e(
       "div",{
-      style: {
-        fontSize: "60px"
+        style: {
+          margin: 'auto',
         }
       },
-      icon === 'cross' ? e(Cross, { size: 100 }) : icons[icon]
+      icon === 'cross' ? e(Cross, { size: size / 2 }) : icons[icon]
     )
   );
 };
@@ -89,7 +96,7 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
       const right = rows[row][column + 1];
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
-      children.push(e(Square, { state, onClick, top, bottom, left, right }));
+      children.push(e(Square, { size, state, onClick, top, bottom, left, right }));
     }
   }
 
