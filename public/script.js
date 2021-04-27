@@ -267,8 +267,7 @@ const Reset = ({ reset }) =>
 const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
 const PuzzleList = ({puzzleList}) => {
-  e("select", {}, puzzleList.map(puzzle => e("option",{text},)))
-  return "test"
+  return e("select", {}, puzzleList.map(puzzle => e("option",{value: puzzle},puzzle)))
 }
 const App = () => {
   const [action, setAction] = React.useState("green");
@@ -329,11 +328,10 @@ const App = () => {
       }
     },
     e(Title),
-    e(PuzzleList, {puzzleList}),
+    puzzleList && e(PuzzleList, {puzzleList}),
     e(Toolbar, { action, setAction }),
-    puzzle && board
-      ? e(Board, { action, puzzle, board, size: 100, makeOnClick })
-      : null,
+    puzzle && board &&
+      e(Board, { action, puzzle, board, size: 100, makeOnClick }),
     e(SnapshotButton, { takeSnapshot }),
     e(Snapshots, { puzzle, snapshots, restoreSnapshot }),
     e(Reset, { reset })
