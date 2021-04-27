@@ -162,7 +162,7 @@ const Tool = ({ action, setAction, selected }) => {
             margin: "auto"
           }
         },
-        e(action === "star" ? Star : Cross, { size: 25 })
+        e(action === "star" ? Star : Cross, { size: 35 })
       );
       break;
 
@@ -171,8 +171,8 @@ const Tool = ({ action, setAction, selected }) => {
         style: {
           margin: "auto",
           backgroundColor: colorSelected[action],
-          width: "25px",
-          height: "25px"
+          width: "35px",
+          height: "35px"
         },
         onClick: () => setAction(action)
       });
@@ -228,31 +228,26 @@ const SnapshotButton = ({ takeSnapshot }) =>
     "Take snapshot"
   );
 
-const Snapshots = ({ puzzle, snapshots, takeSnapshot, restoreSnapshot }) =>
+const Snapshots = ({ puzzle, snapshots, restoreSnapshot }) =>
   e(
     "div",
     {
-      style: {}
+      style: {
+        display: "flex",
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+      }
     },
-    e(SnapshotButton, { takeSnapshot }),
-    e(
-      "div",
-      {
-        style: {
-          display: "flex"
-        }
-      },
-      ...snapshots.map(board =>
-        e(
-          "div",
-          {
-            style: {
-              margin: "10px"
-            },
-            onClick: () => restoreSnapshot(board)
+    ...snapshots.map(board =>
+      e(
+        "div",
+        {
+          style: {
+            margin: "10px"
           },
-          e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} })
-        )
+          onClick: () => restoreSnapshot(board)
+        },
+        e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} })
       )
     )
   );
@@ -323,7 +318,8 @@ const App = () => {
     {
       style: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        alignItems: 'center',
       }
     },
     e(Title),
@@ -331,7 +327,8 @@ const App = () => {
     puzzle && board
       ? e(Board, { action, puzzle, board, size: 100, makeOnClick })
       : null,
-    e(Snapshots, { puzzle, snapshots, takeSnapshot, restoreSnapshot }),
+    e(SnapshotButton, { takeSnapshot }),
+    e(Snapshots, { puzzle, snapshots, restoreSnapshot }),
     e(Reset, { reset })
   );
 };

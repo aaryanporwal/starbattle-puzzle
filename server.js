@@ -61,7 +61,7 @@ io.on("connection", socket => {
   });
 
   socket.on("takeSnapshot", () => {
-    snapshots.push(globalBoard);
+    snapshots.unshift(globalBoard);
 
     io.emit("snapshots", snapshots);
   });
