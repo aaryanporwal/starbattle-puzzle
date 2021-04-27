@@ -5,6 +5,31 @@ import io from "https://cdn.skypack.dev/socket.io-client";
 
 const e = React.createElement;
 
+const Cross = (size) =>
+  e(
+    'svg',
+    {
+      width: size,
+      height: size,
+    },
+    e(
+      'path',
+      {
+        d: "M5.5 156L157.5 6.99998",
+        stroke: "#FF0000",
+        strokeWidth: "15"
+      }
+    ),
+    e(
+      'path',
+      {
+        d: "M158.477 158.548L5.5 7.5",
+        stroke: "#FF0000",
+        strokeWidth: "15"
+      }
+    )
+  )
+
 const colorSelected = {
   green: "hsl(120, 50%, 50%)",
   red: "hsl(0, 50%, 50%)",
@@ -48,7 +73,7 @@ const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
         fontSize: "60px"
         }
       },
-      icons[icon]
+      icon === 'cross' ? e(Cross, { size: 100 }) : icons[icon]
     )
   );
 };
