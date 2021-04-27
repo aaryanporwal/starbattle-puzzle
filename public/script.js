@@ -266,9 +266,14 @@ const Reset = ({ reset }) =>
 
 const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
+const PuzzleList = ({puzzleList}) => {
+  e("select", {}, puzzleList.map(puzzle => e("option",{text},)))
+  return "test"
+}
 const App = () => {
   const [action, setAction] = React.useState("green");
   const [puzzle, setPuzzle] = React.useState(null);
+  const [puzzleList, setPuzzleList] = React.useState(null);
   const [board, setBoard] = React.useState(null);
   const [snapshots, setSnapshots] = React.useState([]);
   const socket = React.useRef(null);
@@ -277,6 +282,7 @@ const App = () => {
     socket.current = io();
     socket.current.on("board", board => setBoard(board));
     socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
+    socket.current.on("puzzle_list", puzzleList => setPuzzleList(puzzleList));
     socket.current.on("snapshots", snapshots => setSnapshots(snapshots));
   }, []);
 
@@ -323,6 +329,7 @@ const App = () => {
       }
     },
     e(Title),
+    e(PuzzleList, {puzzleList}),
     e(Toolbar, { action, setAction }),
     puzzle && board
       ? e(Board, { action, puzzle, board, size: 100, makeOnClick })

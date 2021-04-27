@@ -50,10 +50,10 @@ const clearGlobalBoard = () =>{
 const snapshots = [];
 
 io.on("connection", socket => {
-  socket.emit("puzzle", puzzle.current_puzzle);
+  socket.emit("puzzle", puzzles[current_puzzle]);
   socket.emit("board", globalBoard);
   socket.emit("snapshots", snapshots);
-
+  socket.emit("puzzle_list",Object.keys(puzzles))
   socket.on("click", ({ row, column, action }) => {
     globalBoard = Immer.produce(globalBoard, board => {
       const square = board[row][column];
