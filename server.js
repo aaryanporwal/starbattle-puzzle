@@ -67,7 +67,7 @@ io.on("connection", socket => {
   });
 
   socket.on("restoreSnapshot", board => {
-    snapshots.push(globalBoard);
+    // snapshots.push(globalBoard);
     globalBoard = board;
     io.emit("board", globalBoard);
     io.emit("snapshots", snapshots);
