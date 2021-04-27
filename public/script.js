@@ -43,10 +43,10 @@ const Square = ({ row, column, state, onClick, top, bottom, left, right }) => {
       onClick
     },
     e(
-      "div",
-      {
-        margin: "auto",
-        fontSize: "72px"
+      "div",{
+      style: {
+        fontSize: "60px"
+        }
       },
       icons[icon]
     )

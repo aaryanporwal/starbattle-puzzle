@@ -9,6 +9,8 @@
 
 * Description link
 
+* Clear board without clearing snapshots
+
 # Generating puzzles
 
 * generate regions of grid
