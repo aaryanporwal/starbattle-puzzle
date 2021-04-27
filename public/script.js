@@ -144,22 +144,6 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
 const Tool = ({ action, setAction, selected }) => {
   switch (action) {
     case "star":
-      return e(
-        "div",
-        {
-          style: {
-            display: 'grid'
-          },
-          onClick: () => setAction(action)
-        },
-        e(
-          "div",
-          {
-            margin: "auto",
-          },
-          e(Star, { size: 25 })
-        )
-      );
     case "cross":
       return e(
         "div",
@@ -172,20 +156,30 @@ const Tool = ({ action, setAction, selected }) => {
         e(
           "div",
           {
-            margin: "auto",
+            style: {
+              margin: "auto",
+            }
           },
-          e(Cross, { size: 25 })
+          e(action === 'star' ? Star : Cross, { size: 25 })
         )
       );
     default:
-      return e("div", {
-        style: {
-          backgroundColor: selected
-            ? colorSelected[action]
-            : colorUnselected[action]
+      return e(
+        "div",
+        {
         },
-        onClick: () => setAction(action)
-      });
+        e(
+          'div',
+          {
+            style: {
+              backgroundColor: selected
+                ? colorSelected[action]
+                : colorUnselected[action]
+            },
+            onClick: () => setAction(action)
+          }
+        )
+      );
   }
 };
 
