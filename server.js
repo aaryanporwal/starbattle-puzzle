@@ -5,24 +5,39 @@ const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
-let current_puzzle = "puzzle_1";  
-const puzzles = 
-  { puzzle_1 : 
-  {
-  stars: 1,
-  size: 5,
-  borders: {
-    rows: ["#|#||#", "#|#|##", "####|#", "#|#||#", "#||||#"],
-    columns: ["#|#||#", "#||#|#", "##|###", "######", "#||###"]
+let current_puzzle = "puzzle_2";
+const puzzles = {
+  puzzle_1: {
+    stars: 1,
+    size: 5,
+    regions: [
+      [0, 0, 1, 1, 1],
+      [0, 0, 2, 2, 1],
+      [3, 0, 2, 1, 1],
+      [3, 3, 4, 4, 4],
+      [3, 3, 3, 3, 3]
+    ],
+    borders: {
+      rows: ["#|#||#", "#|#|##", "####|#", "#|#||#", "#||||#"],
+      columns: ["#|#||#", "#||#|#", "##|###", "######", "#||###"]
+    }
+  },
+  puzzle_2: {
+    stars: 1,
+    size: 5,
+    regions: [
+      [0, 0, 1, 1, 1],
+      [0, 1, 1, 2, 2],
+      [3, 1, 4, 2, 2],
+      [3, 3, 4, 2, 2],
+      [3, 3, 2, 2, 2]
+    ],
+    borders: {
+      rows: ["#|#||#", "##|#|#", "####|#", "#|##|#", "#|#||#"],
+      columns: ["#|#||#", "##|#|#", "#|#|##", "##|||#", "##|||#"]
+    }
   }
-}, puzzle_2 : {
-  stars: 1,
-  size: 5,
-  borders: {
-    rows: ["#|#||#","##|#|#","####|#","#|##|#","#|#||#"],
-    columns: ["#|#||#","##|#|#","#|#|##","##|||#","##|||#"]
-  }
-}};
+};
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -39,13 +54,13 @@ let globalBoard = new Array(5)
     new Array(5).fill().map((_, j) => ({ color: "white", icon: "" }))
   );
 
-const clearGlobalBoard = () =>{
+const clearGlobalBoard = () => {
   globalBoard = new Array(5)
-  .fill()
-  .map((_, i) =>
-    new Array(5).fill().map((_, j) => ({ color: "white", icon: "" }))
-  );
-}
+    .fill()
+    .map((_, i) =>
+      new Array(5).fill().map((_, j) => ({ color: "white", icon: "" }))
+    );
+};
 
 const snapshots = [];
 
@@ -53,7 +68,7 @@ io.on("connection", socket => {
   socket.emit("puzzle", puzzles[current_puzzle]);
   socket.emit("board", globalBoard);
   socket.emit("snapshots", snapshots);
-  socket.emit("puzzle_list",Object.keys(puzzles))
+  socket.emit("puzzle_list", Object.keys(puzzles));
   socket.on("click", ({ row, column, action }) => {
     globalBoard = Immer.produce(globalBoard, board => {
       const square = board[row][column];
@@ -85,14 +100,12 @@ io.on("connection", socket => {
 
   socket.on("reset", () => {
     snapshots.splice(0, snapshots.length);
-    clearGlobalBoard()
-    io.emit("snapshots", snapshots)
-    io.emit("board", globalBoard)
-    
+    clearGlobalBoard();
+    io.emit("snapshots", snapshots);
+    io.emit("board", globalBoard);
   });
 });
 
 const listener = server.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
-

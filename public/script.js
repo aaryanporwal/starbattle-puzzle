@@ -71,8 +71,8 @@ const colorUnselected = {
   yellow: "hsl(50, 50%, 40%)"
 };
 
-function borderStyle(wall) {
-  return wall === "#" ? "solid blue 2px" : "solid black 1px";
+function borderStyle(thick) {
+  return thick ? "solid black 4px" : "solid black 1px";
 }
 
 const Square = ({
@@ -119,13 +119,14 @@ const Square = ({
 
 const Board = ({ puzzle, board, size, makeOnClick }) => {
   const children = [];
-  const { columns, rows } = puzzle.borders;
+  const regions = puzzle.regions;
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
-      const top = columns[column][row];
-      const bottom = columns[column][row + 1];
-      const left = rows[row][column];
-      const right = rows[row][column + 1];
+      const region = regions[row][column];      
+      const top = row === 0 || regions[row - 1][column] !== region;
+      const bottom = row === puzzle.size - 1 || regions[row + 1][column] !== region;
+      const left = column === 0 || regions[row][column - 1] !== region;
+      const right = column === puzzle.size - 1 || regions[row][column + 1] !== region
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
       children.push(
