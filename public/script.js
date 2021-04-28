@@ -125,30 +125,20 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
   const children = [];
   const regions = puzzle.regions;
 
-  
-  
+  const transpose = new Array(size).fill().map(_ => new Array(size).fill());
+  for (let row = 0; row < size; row++) {
+    for (let column = 0; column < size; column++) {
+      transpose[column][row] = board[row][column];
+    }
+  }
+
   const rowCounts = board.map(row =>
     row.reduce((count, state) => state === 'star' ? count + 1 : count)
   );
 
-  const columnCounts = board.map(
-        
-  {
-        let rowStars = 0;
-        for (let i = 0; i < puzzle.size; i++) {
-        }
-        // check row
-      
-      // chek column
-      //chekc region
-        
-      }
-      // check row
-      
-      // chek column
-      //chekc region
-}
-  
+  const columnCounts = transpose.map(column =>
+    column.reduce((count, state) => state === 'star' ? count + 1 : count)
+  );  
   
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
@@ -160,7 +150,9 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
       
-      let conflict = true;
+      const conflict =
+            state === 'star' &&
+            (rowCounts[row] > puzzle.stars || columnCounts[column] > puzzle.stars);
 
       children.push(
         e(Square, { size, state, onClick, conflict, top, bottom, left, right })
