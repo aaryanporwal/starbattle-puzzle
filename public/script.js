@@ -30,7 +30,7 @@ const Cross = ({ size }) =>
     })
   );
 
-const Star = ({ size }) =>
+const Star = ({ conflict, size }) =>
   e(
     "svg",
     {
@@ -54,7 +54,7 @@ const Star = ({ size }) =>
           return `${x} ${y}`;
         })
         .join(" "),
-      stroke: "black",
+      fill: conflict ? "red" : "black",
       strokeWidth: "1"
     })
   );
@@ -115,7 +115,7 @@ const Square = ({
       icon === "cross"
         ? e(Cross, { size: size / 2 })
         : icon === "star"
-        ? e(Star, { size: size / 2 })
+        ? e(Star, { conflict, size: size / 2 })
         : null
     )
   );
@@ -124,6 +124,32 @@ const Square = ({
 const Board = ({ puzzle, board, size, makeOnClick }) => {
   const children = [];
   const regions = puzzle.regions;
+
+  
+  
+  const rowCounts = board.map(row =>
+    row.reduce((count, state) => state === 'star' ? count + 1 : count)
+  );
+
+  const columnCounts = board.map(
+        
+  {
+        let rowStars = 0;
+        for (let i = 0; i < puzzle.size; i++) {
+        }
+        // check row
+      
+      // chek column
+      //chekc region
+        
+      }
+      // check row
+      
+      // chek column
+      //chekc region
+}
+  
+  
   for (let row = 0; row < 5; row++) {
     for (let column = 0; column < 5; column++) {
       const region = regions[row][column];      
@@ -133,9 +159,9 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
       const right = column === puzzle.size - 1 || regions[row][column + 1] !== region
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
-
-      let conflict = true;
       
+      let conflict = true;
+
       children.push(
         e(Square, { size, state, onClick, conflict, top, bottom, left, right })
       );
