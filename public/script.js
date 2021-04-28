@@ -71,8 +71,11 @@ const colorUnselected = {
   yellow: "hsl(50, 50%, 40%)"
 };
 
-function borderStyle(thick) {
-  return thick ? "solid black 4px" : "solid black 1px";
+function borderStyle(size, thick) {
+  if (size === 100)
+    return thick ? "solid black 4px" : "dashed black 1px";
+  else
+    return thick ? "solid black 2px" : "dashed black 1px";
 }
 
 const Square = ({
@@ -84,7 +87,8 @@ const Square = ({
   top,
   bottom,
   left,
-  right
+  right,
+  conflict
 }) => {
   const { color, icon } = state;
 
@@ -94,10 +98,10 @@ const Square = ({
       style: {
         display: "grid",
         backgroundColor: colorSelected[color],
-        borderTop: borderStyle(top),
-        borderBottom: borderStyle(bottom),
-        borderLeft: borderStyle(left),
-        borderRight: borderStyle(right)
+        borderTop: borderStyle(size, top),
+        borderBottom: borderStyle(size, bottom),
+        borderLeft: borderStyle(size, left),
+        borderRight: borderStyle(size, right)
       },
       onClick
     },
@@ -129,8 +133,11 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
       const right = column === puzzle.size - 1 || regions[row][column + 1] !== region
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
+
+      let conflict = true;
+      
       children.push(
-        e(Square, { size, state, onClick, top, bottom, left, right })
+        e(Square, { size, state, onClick, conflict, top, bottom, left, right })
       );
     }
   }
@@ -142,9 +149,9 @@ const Board = ({ puzzle, board, size, makeOnClick }) => {
         display: "grid",
         gridTemplateColumns: `repeat(5, ${size}px)`,
         gridTemplateRows: `repeat(5, ${size}px)`,
-        border: borderStyle("#"),
+        border: borderStyle(size, true),
         // without an explicit maxWidth, the grid takes up the whole width ?
-        maxWidth: `${5 * size + 4}px` // +4 to account for border
+        maxWidth: `${5 * size + (size === 100 ? 8 : 4)}px` // +4 to account for border
       }
     },
     children
@@ -332,7 +339,7 @@ const App = () => {
     puzzleList && e(PuzzleList, {puzzleList}),
     e(Toolbar, { action, setAction }),
     puzzle && board &&
-      e(Board, { action, puzzle, board, size: 100, makeOnClick }),
+      e(Board, { action, puzzle, board, check: true, size: 100, makeOnClick }),
     e(SnapshotButton, { takeSnapshot }),
     e(Snapshots, { puzzle, snapshots, restoreSnapshot }),
     e(Reset, { reset })
