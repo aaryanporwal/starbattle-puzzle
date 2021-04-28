@@ -1,8 +1,5 @@
 # TODO
 
-* UI fixes: icons, snapshots, toolbar highlighting
-
-* Wrapping Snapshots
 
 * Generate Puzzles or Take from Online
   * select puzzle
