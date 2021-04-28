@@ -127,7 +127,7 @@ const Board = ({ puzzle, board, check, size, makeOnClick }) => {
 
   const rowCounts = new Array(puzzle.size).fill(0);
   const columnCounts = new Array(puzzle.size).fill(0);
-  const regionCounts = new Array();
+  const regionCounts = new Array(puzzle.size * puzzle.size).fill(0);
   
   for (let row = 0; row < puzzle.size; row++) {
     for (let column = 0; column < puzzle.size; column++) {
@@ -151,8 +151,15 @@ const Board = ({ puzzle, board, check, size, makeOnClick }) => {
       const onClick = makeOnClick(row, column);
       
       const conflict =
-        check && state.icon === 'star' &&
-        (rowCounts[row] > puzzle.stars || columnCounts[column] > puzzle.stars);
+        check &&
+          (state.icon === 'star' &&
+            (rowCounts[row] > puzzle.stars ||
+             columnCounts[column] > puzzle.stars ||
+             regionCounts[puzzle.regions[row][column]] > puzzle.stars)) ||
+          (state.icon !== 'star' &&
+            (rowCounts[row] < puzzle.stars ||
+             columnCounts[column] < puzzle.stars ||
+             regionCounts[puzzle.regions[row][column]] < puzzle.stars));      
 
       children.push(
         e(Square, { size, state, onClick, conflict, top, bottom, left, right })
@@ -254,7 +261,7 @@ const SnapshotButton = ({ takeSnapshot }) =>
     "Take snapshot"
   );
 
-const Snapshots = ({ puzzle, snapshots, restoreSnapshot }) =>
+const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
   e(
     "div",
     {
@@ -273,7 +280,7 @@ const Snapshots = ({ puzzle, snapshots, restoreSnapshot }) =>
           },
           onClick: () => restoreSnapshot(board)
         },
-        e(Board, { puzzle, board, size: 20, makeOnClick: () => () => {} })
+        e(Board, { puzzle, board, check, size: 20, makeOnClick: () => () => {} })
       )
     )
   );
@@ -293,14 +300,39 @@ const Reset = ({ reset }) =>
 const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
 const PuzzleList = ({puzzleList}) => {
-  return e("select", {}, puzzleList.map(puzzle => e("option",{value: puzzle},puzzle)))
+  return e(
+    "select",
+    {},
+    puzzleList.map(puzzle =>
+      e("option", { value: puzzle }, puzzle)
+    )
+  )
 }
+
+const Checkbox = ({ check, setCheck }) => {
+  return e(
+    'span',
+    {
+      style: { margin: '5px' }
+    },
+    'Check board',
+    e('input',
+      {
+        type: 'checkbox',
+        checked: check,
+        onClick: () => setCheck(!check)
+      }
+    )
+  )
+}
+
 const App = () => {
   const [action, setAction] = React.useState("green");
   const [puzzle, setPuzzle] = React.useState(null);
   const [puzzleList, setPuzzleList] = React.useState(null);
   const [board, setBoard] = React.useState(null);
   const [snapshots, setSnapshots] = React.useState([]);
+  const [check, setCheck] = React.useState(false);
   const socket = React.useRef(null);
 
   React.useEffect(() => {
@@ -357,14 +389,14 @@ const App = () => {
     e('div',
       {},
       e(Toolbar, { action, setAction }),
-    puzzleList && e(PuzzleList, { puzzleList }),
+      puzzleList && e(PuzzleList, { puzzleList }),
+      e(Checkbox, { check, setCheck }),
       e(SnapshotButton, { takeSnapshot }),
       e(Reset, { reset })
-
-
+    ),
     puzzle && board &&
-      e(Board, { action, puzzle, board, check: true, size: 100, makeOnClick }),
-    e(Snapshots, { puzzle, snapshots, restoreSnapshot }),
+      e(Board, { action, puzzle, board, check, size: 100, makeOnClick }),
+    e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
   );
 };
 

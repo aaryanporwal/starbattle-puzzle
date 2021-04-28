@@ -5,9 +5,9 @@ const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
-let current_puzzle = "puzzle_2";
+let current_puzzle = '1 star 5x5 #2';
 const puzzles = {
-  puzzle_1: {
+  '1 star 5x5 #1': {
     stars: 1,
     size: 5,
     regions: [
@@ -15,10 +15,10 @@ const puzzles = {
       [0, 0, 2, 2, 1],
       [3, 0, 2, 1, 1],
       [3, 3, 4, 4, 4],
-      [3, 3, 3, 3, 3]
+      [3, 3, 3, 3, 3],
     ],
   },
-  puzzle_2: {
+  '1 star 5x5 #2': {
     stars: 1,
     size: 5,
     regions: [
@@ -26,7 +26,7 @@ const puzzles = {
       [0, 1, 1, 2, 2],
       [3, 1, 4, 2, 2],
       [3, 3, 4, 2, 2],
-      [3, 3, 2, 2, 2]
+      [3, 3, 2, 2, 2],
     ],
   }
 };
