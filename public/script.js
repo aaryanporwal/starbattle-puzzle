@@ -151,16 +151,21 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
       
+      let conflict = false;
+      if (state.icon === 'star') {
+        if (rowCounts[row] > puzzle.stars) conflict = true;
+        if (columnCounts[column] > puzzle.stars) conflict = true;
+        if (egionCounts[puzzle.regions[row][column]] > puzzle.stars) conflict = true;
+        
+      }
       const conflict =
         check &&
           (state.icon === 'star' &&
             (rowCounts[row] > puzzle.stars ||
              columnCounts[column] > puzzle.stars ||
-             regionCounts[puzzle.regions[row][column]] > puzzle.stars)) ||
-          (state.icon !== 'star' &&
-            (rowCounts[row] < puzzle.stars ||
-             columnCounts[column] < puzzle.stars ||
-             regionCounts[puzzle.regions[row][column]] < puzzle.stars));      
+             regionCounts[puzzle.regions[row][column]] > puzzle.stars ||
+             (row > 0 && board[row - 1][column].icon === 'star') ||
+             (column > 0 && board[row][column])
 
       children.push(
         e(Square, { size: squareSize, state, onClick, conflict, top, bottom, left, right })
