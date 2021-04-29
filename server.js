@@ -76,7 +76,11 @@ io.on("connection", socket => {
   socket.emit("puzzle", puzzles[current_puzzle]);
   socket.emit("board", globalBoard);
   socket.emit("snapshots", snapshots);
-  socket.emit("puzzle_list", Object.keys(puzzles));
+  socket.emit("puzzleSelection", {
+    puzzleList: Object.keys(puzzles),
+    currentPuzzle: current_puzzle,
+  });
+
   socket.on("click", ({ row, column, action }) => {
     globalBoard = Immer.produce(globalBoard, board => {
       const square = board[row][column];
@@ -111,6 +115,10 @@ io.on("connection", socket => {
     initializeGlobalBoard(current_puzzle);
     io.emit("snapshots", snapshots);
     io.emit("board", globalBoard);
+  });
+
+  socket.on('setCurrentPuzzle', (puzzleName) => {
+    
   });
 });
 

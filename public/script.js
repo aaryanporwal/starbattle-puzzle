@@ -72,7 +72,7 @@ const colorUnselected = {
 };
 
 function borderStyle(size, thick) {
-  if (size === 100)
+  if (size > 20)
     return thick ? "solid black 4px" : "dashed black 1px";
   else
     return thick ? "solid black 2px" : "dashed black 1px";
@@ -121,32 +121,33 @@ const Square = ({
   );
 };
 
-const Board = ({ puzzle, board, check, size, makeOnClick }) => {
+const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   const children = [];
   const regions = puzzle.regions;
+  const size = puzzle.size;
 
-  const rowCounts = new Array(puzzle.size).fill(0);
-  const columnCounts = new Array(puzzle.size).fill(0);
-  const regionCounts = new Array(puzzle.size * puzzle.size).fill(0);
+  const rowCounts = new Array(size).fill(0);
+  const columnCounts = new Array(size).fill(0);
+  const regionCounts = new Array(size * size).fill(0);
   
-  for (let row = 0; row < puzzle.size; row++) {
-    for (let column = 0; column < puzzle.size; column++) {
+  for (let row = 0; row < size; row++) {
+    for (let column = 0; column < size; column++) {
       console.log(board[row][column])
       if (board[row][column].icon === 'star') {
         rowCounts[row]++;
         columnCounts[column]++;
-        regionCounts[puzzle.regions[row][column]]++;
+        regionCounts[regions[row][column]]++;
       }
     }
   }
   
-  for (let row = 0; row < 5; row++) {
-    for (let column = 0; column < 5; column++) {
+  for (let row = 0; row < size; row++) {
+    for (let column = 0; column < size; column++) {
       const region = regions[row][column];      
       const top = row === 0 || regions[row - 1][column] !== region;
-      const bottom = row === puzzle.size - 1 || regions[row + 1][column] !== region;
+      const bottom = row === size - 1 || regions[row + 1][column] !== region;
       const left = column === 0 || regions[row][column - 1] !== region;
-      const right = column === puzzle.size - 1 || regions[row][column + 1] !== region
+      const right = column === size - 1 || regions[row][column + 1] !== region
       const state = board[row][column];
       const onClick = makeOnClick(row, column);
       
@@ -162,7 +163,7 @@ const Board = ({ puzzle, board, check, size, makeOnClick }) => {
              regionCounts[puzzle.regions[row][column]] < puzzle.stars));      
 
       children.push(
-        e(Square, { size, state, onClick, conflict, top, bottom, left, right })
+        e(Square, { size: squareSize, state, onClick, conflict, top, bottom, left, right })
       );
     }
   }
@@ -172,11 +173,11 @@ const Board = ({ puzzle, board, check, size, makeOnClick }) => {
     {
       style: {
         display: "grid",
-        gridTemplateColumns: `repeat(5, ${size}px)`,
-        gridTemplateRows: `repeat(5, ${size}px)`,
-        border: borderStyle(size, true),
+        gridTemplateColumns: `repeat(${size}, ${squareSize}px)`,
+        gridTemplateRows: `repeat(${size}, ${squareSize}px)`,
+        border: borderStyle(squareSize, true),
         // without an explicit maxWidth, the grid takes up the whole width ?
-        maxWidth: `${5 * size + (size === 100 ? 8 : 4)}px` // +4 to account for border
+        maxWidth: `${size * squareSize + (squareSize > 20 ? 8 : 4)}px` // +4 to account for border
       }
     },
     children
@@ -280,7 +281,7 @@ const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
           },
           onClick: () => restoreSnapshot(board)
         },
-        e(Board, { puzzle, board, check, size: 20, makeOnClick: () => () => {} })
+        e(Board, { puzzle, board, check, squareSize: 100 / puzzle.size, makeOnClick: () => () => {} })
       )
     )
   );
@@ -395,7 +396,7 @@ const App = () => {
       e(Reset, { reset })
     ),
     puzzle && board &&
-      e(Board, { action, puzzle, board, check, size: 100, makeOnClick }),
+      e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
     e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
   );
 };
