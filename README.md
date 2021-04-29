@@ -5,7 +5,7 @@
 
 * Description link
 
-* more 
+* more cell highlight colors
 
 # Generating puzzles
 
