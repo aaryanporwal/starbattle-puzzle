@@ -7,6 +7,8 @@
 
 * more cell highlight colors
 
+* add column / row labels to help communication
+
 # Generating puzzles
 
 * generate regions of grid

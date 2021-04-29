@@ -159,9 +159,8 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
         for (let r = row - 1; r <= row + 1; r++) {
           for (let c = column - 1; c <= column + 1; c++) {
             if (r >= 0 && r < size && c >= 0 && c < size &&
-                !(r === row && c === column))
-              if (board[r][c].icon === 'star')
-                conflict = true;
+                !(r === row && c === column) && board[r][c].icon === 'star')
+              conflict = true;
           }
         }
       }
