@@ -125,6 +125,7 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   const children = [];
   const regions = puzzle.regions;
   const size = puzzle.size;
+  const stars = puzzle.stars;
 
   const rowCounts = new Array(size).fill(0);
   const columnCounts = new Array(size).fill(0);
@@ -132,7 +133,6 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   
   for (let row = 0; row < size; row++) {
     for (let column = 0; column < size; column++) {
-      if (!board[row][column]) debugger;
       if (board[row][column].icon === 'star') {
         rowCounts[row]++;
         columnCounts[column]++;
@@ -152,20 +152,19 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
       const onClick = makeOnClick(row, column);
       
       let conflict = false;
-      if (state.icon === 'star') {
-        if (rowCounts[row] > puzzle.stars) conflict = true;
-        if (columnCounts[column] > puzzle.stars) conflict = true;
-        if (egionCounts[puzzle.regions[row][column]] > puzzle.stars) conflict = true;
-        
+      if (check && state.icon === 'star') {
+        if (rowCounts[row] > stars) conflict = true;
+        if (columnCounts[column] > stars) conflict = true;
+        if (regionCounts[regions[row][column]] > stars) conflict = true;
+        for (let r = row - 1; r <= row + 1; r++) {
+          for (let c = column - 1; c <= column + 1; c++) {
+            if (r >= 0 && r < size && c >= 0 && c < size &&
+                !(r === row && c === column))
+              if (board[r][c].icon === 'star')
+                conflict = true;
+          }
+        }
       }
-      const conflict =
-        check &&
-          (state.icon === 'star' &&
-            (rowCounts[row] > puzzle.stars ||
-             columnCounts[column] > puzzle.stars ||
-             regionCounts[puzzle.regions[row][column]] > puzzle.stars ||
-             (row > 0 && board[row - 1][column].icon === 'star') ||
-             (column > 0 && board[row][column])
 
       children.push(
         e(Square, { size: squareSize, state, onClick, conflict, top, bottom, left, right })
