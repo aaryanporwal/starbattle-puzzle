@@ -351,8 +351,14 @@ const App = () => {
     socket.current.on("board", board => setBoard(board));
     socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
     socket.current.on("puzzleAndBoard", puzzleAndBoard => {
-      setPuzzle(puzzleAndBoard.puzzle);
-      setBoard(puzzleAndBoard.board);
+      // for some reason I don't understand,
+      // React does a synchronous redraw after setPuzzle,
+      // which causes a crash because board has not yet been updated.
+      // force batched update to prevent the redraw
+      ReactDOM.unstable_batchedUpdates(() => {
+        setPuzzle(puzzleAndBoard.puzzle);
+        setBoard(puzzleAndBoard.board);
+      });
     });
     socket.current.on("puzzleSelection", puzzleSelection => {
       setPuzzleList(puzzleSelection.puzzleList);

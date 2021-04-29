@@ -2,11 +2,10 @@
 
 
 * Generate Puzzles or Take from Online
-  * select puzzle
 
 * Description link
 
-* Clear board without clearing snapshots
+* more 
 
 # Generating puzzles
 
