@@ -300,10 +300,12 @@ const Reset = ({ reset }) =>
 
 const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
-const PuzzleList = ({ currentPuzzle, puzzleList }) => {
+const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
   return e(
     "select",
-    {},
+    {
+      onChange: e => choosePuzzle(e.currentTarget.value)
+    },
     puzzleList.map(puzzleName =>
       e(
         "option",
@@ -388,6 +390,10 @@ const App = () => {
     socket.current.emit("reset");
   };
 
+  const choosePuzzle = puzzleName => {
+    socket.current.emit("choosePuzzle", puzzleName);    
+  };
+  
   return e(
     "div",
     {
@@ -402,7 +408,7 @@ const App = () => {
       {},
       e(Toolbar, { action, setAction }),
       puzzleList && currentPuzzle &&
-        e(PuzzleList, { currentPuzzle, puzzleList }),
+        e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
       e(Checkbox, { check, setCheck }),
       e(SnapshotButton, { takeSnapshot }),
       e(Reset, { reset })

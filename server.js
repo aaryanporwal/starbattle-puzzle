@@ -131,10 +131,11 @@ io.on("connection", socket => {
     emitSnapshots(io);
   });
 
-  socket.on('setCurrentPuzzle', (puzzleName) => {
+  socket.on('choosePuzzle', (puzzleName) => {
     snapshots.splice(0, snapshots.length);
     current_puzzle = puzzleName;
     initializeGlobalBoard(current_puzzle);
+    emitPuzzle(socket);
     emitBoard(io);
     emitSnapshots(io);
     emitPuzzleSelection(io);
