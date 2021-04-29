@@ -300,12 +300,19 @@ const Reset = ({ reset }) =>
 
 const Title = () => e("h1", {}, "Star Battle Puzzle Party");
 
-const PuzzleList = ({puzzleList}) => {
+const PuzzleList = ({ currentPuzzle, puzzleList }) => {
   return e(
     "select",
     {},
-    puzzleList.map(puzzle =>
-      e("option", { value: puzzle }, puzzle)
+    puzzleList.map(puzzleName =>
+      e(
+        "option",
+        {
+          value: puzzleName,
+          selected: currentPuzzle === puzzleName
+        },
+        puzzleName
+      )
     )
   )
 }
@@ -330,6 +337,7 @@ const Checkbox = ({ check, setCheck }) => {
 const App = () => {
   const [action, setAction] = React.useState("green");
   const [puzzle, setPuzzle] = React.useState(null);
+  const [currentPuzzle, setCurrentPuzzle] = React.useState(null);
   const [puzzleList, setPuzzleList] = React.useState(null);
   const [board, setBoard] = React.useState(null);
   const [snapshots, setSnapshots] = React.useState([]);
@@ -340,7 +348,10 @@ const App = () => {
     socket.current = io();
     socket.current.on("board", board => setBoard(board));
     socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
-    socket.current.on("puzzle_list", puzzleList => setPuzzleList(puzzleList));
+    socket.current.on("puzzleSelection", puzzleSelection => {
+      setPuzzleList(puzzleSelection.puzzleList);
+      setCurrentPuzzle(puzzleSelection.currentPuzzle);
+    });
     socket.current.on("snapshots", snapshots => setSnapshots(snapshots));
   }, []);
 
@@ -390,7 +401,8 @@ const App = () => {
     e('div',
       {},
       e(Toolbar, { action, setAction }),
-      puzzleList && e(PuzzleList, { puzzleList }),
+      puzzleList && currentPuzzle &&
+        e(PuzzleList, { currentPuzzle, puzzleList }),
       e(Checkbox, { check, setCheck }),
       e(SnapshotButton, { takeSnapshot }),
       e(Reset, { reset })

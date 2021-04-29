@@ -72,14 +72,30 @@ initializeGlobalBoard(current_puzzle);
 
 const snapshots = [];
 
-io.on("connection", socket => {
-  socket.emit("puzzle", puzzles[current_puzzle]);
+function emitPuzzle(socket) {
+  socket.emit("puzzle", puzzles[current_puzzle]);  
+}
+
+function emitBoard(socket) {
   socket.emit("board", globalBoard);
-  socket.emit("snapshots", snapshots);
+}
+
+function emitSnapshots(socket) {
+  socket.emit("snapshots", snapshots);  
+}
+
+function emitPuzzleSelection(socket) {
   socket.emit("puzzleSelection", {
     puzzleList: Object.keys(puzzles),
     currentPuzzle: current_puzzle,
   });
+}
+
+io.on("connection", socket => {
+  emitPuzzle(socket);
+  emitBoard(socket);
+  emitSnapshots(socket);
+  emitPuzzleSelection(socket);
 
   socket.on("click", ({ row, column, action }) => {
     globalBoard = Immer.produce(globalBoard, board => {
@@ -94,31 +110,34 @@ io.on("connection", socket => {
           break;
       }
     });
-    io.emit("board", globalBoard);
+
+    emitBoard(io);
   });
 
   socket.on("takeSnapshot", () => {
     snapshots.unshift(globalBoard);
-
-    io.emit("snapshots", snapshots);
+    emitSnapshots(io);
   });
 
   socket.on("restoreSnapshot", board => {
-    // snapshots.push(globalBoard);
     globalBoard = board;
-    io.emit("board", globalBoard);
-    io.emit("snapshots", snapshots);
+    emitBoard(io);
   });
 
   socket.on("reset", () => {
     snapshots.splice(0, snapshots.length);
     initializeGlobalBoard(current_puzzle);
-    io.emit("snapshots", snapshots);
-    io.emit("board", globalBoard);
+    emitBoard(io);
+    emitSnapshots(io);
   });
 
   socket.on('setCurrentPuzzle', (puzzleName) => {
-    
+    snapshots.splice(0, snapshots.length);
+    current_puzzle = puzzleName;
+    initializeGlobalBoard(current_puzzle);
+    emitBoard(io);
+    emitSnapshots(io);
+    emitPuzzleSelection(io);
   });
 });
 
