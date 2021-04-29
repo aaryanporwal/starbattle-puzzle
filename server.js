@@ -80,6 +80,13 @@ function emitBoard(socket) {
   socket.emit("board", globalBoard);
 }
 
+function emitPuzzleAndBoard(socket) {
+  socket.emit("puzzleAndBoard", {
+    puzzle: puzzles[current_puzzle],
+    board: globalBoard,
+  });
+}
+
 function emitSnapshots(socket) {
   socket.emit("snapshots", snapshots);  
 }
@@ -92,8 +99,7 @@ function emitPuzzleSelection(socket) {
 }
 
 io.on("connection", socket => {
-  emitPuzzle(socket);
-  emitBoard(socket);
+  emitPuzzleAndBoard(socket);
   emitSnapshots(socket);
   emitPuzzleSelection(socket);
 
@@ -135,8 +141,7 @@ io.on("connection", socket => {
     snapshots.splice(0, snapshots.length);
     current_puzzle = puzzleName;
     initializeGlobalBoard(current_puzzle);
-    emitPuzzle(socket);
-    emitBoard(io);
+    emitPuzzleAndBoard(io);
     emitSnapshots(io);
     emitPuzzleSelection(io);
   });

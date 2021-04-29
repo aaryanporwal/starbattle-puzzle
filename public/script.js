@@ -132,7 +132,7 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   
   for (let row = 0; row < size; row++) {
     for (let column = 0; column < size; column++) {
-      console.log(board[row][column])
+      if (!board[row][column]) debugger;
       if (board[row][column].icon === 'star') {
         rowCounts[row]++;
         columnCounts[column]++;
@@ -350,6 +350,10 @@ const App = () => {
     socket.current = io();
     socket.current.on("board", board => setBoard(board));
     socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
+    socket.current.on("puzzleAndBoard", puzzleAndBoard => {
+      setPuzzle(puzzleAndBoard.puzzle);
+      setBoard(puzzleAndBoard.board);
+    });
     socket.current.on("puzzleSelection", puzzleSelection => {
       setPuzzleList(puzzleSelection.puzzleList);
       setCurrentPuzzle(puzzleSelection.currentPuzzle);
