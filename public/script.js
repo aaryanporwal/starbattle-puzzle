@@ -153,47 +153,37 @@ const App = () => {
   };
   
   return e(
-    'div',
+    "div",
     {
       style: {
-        display: 'grid',
-        gridTemplateColumns: '1fr max-content 1fr',
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }
     },
-    'Left',
-    e(
-      "div",
-      {
-        style: {
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }
-      },
-      e('h1',
-        { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
-        'STAR BATTLE PUZZLE PARTY'
-      ),
-      e('div',
-        {
-          // with the SVG board, clicking on top row board squares causes unexpected text selection
-          style: { userSelect: 'none' }
-        },
-        puzzleList && currentPuzzle &&
-          e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
-        e(Checkbox, { check, setCheck }),
-        e(SnapshotButton, { takeSnapshot }),
-        e(Reset, { reset })
-      ),
-      e(Toolbar, { action, setAction }),
-      // don't render the board if the size doesn't match
-      // i.e. we've received a puzzle update but not yet a board update
-      puzzle && board && board.length === puzzle.size &&
-        e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
-      puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
-        e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
+    e('h1',
+      { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
+      'STAR BATTLE PUZZLE PARTY'
     ),
-    'Right'
+    e('div',
+      {
+        // with the SVG board, clicking on top row board squares causes unexpected text selection
+        style: { userSelect: 'none' }
+      },
+      puzzleList && currentPuzzle &&
+        e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
+      e(Checkbox, { check, setCheck }),
+      e(SnapshotButton, { takeSnapshot }),
+      e(Reset, { reset })
+    ),
+    e(Toolbar, { action, setAction }),
+    // don't render the board if the size doesn't match
+    // i.e. we've received a puzzle update but not yet a board update
+    puzzle && board && board.length === puzzle.size &&
+      e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
+    puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
+      e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
   );
 };
 
