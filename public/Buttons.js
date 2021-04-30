@@ -50,6 +50,7 @@ const Checkbox = ({ check, setCheck }) => {
   return e(
     'button',
     {
+      style: { margin: '10px '},
       onClick: () => setCheck(!check)
     },
     'Check',
@@ -57,7 +58,6 @@ const Checkbox = ({ check, setCheck }) => {
       {
         type: 'checkbox',
         checked: check,
-        onClick: () => setCheck(!check)
       }
     )
   )
