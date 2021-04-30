@@ -5,4 +5,5 @@ export default {
   aqua: "hsl(180, 100%, 75%)",
   violet: "hsl(240, 100%, 75%)",
   pink: "hsl(300, 100%, 75%)",
+  red: "hsl(360, 100%, 75%)",
 };

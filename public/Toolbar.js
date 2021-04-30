@@ -38,7 +38,7 @@ const Tool = ({ action, setAction, selected }) => {
     {
       style: {
         display: "grid",
-        borderStyle: selected ? 'solid black 4px' : '',
+        border: selected ? 'solid black 2px' : '',
       },
       onClick: () => setAction(action)
     },
@@ -59,7 +59,7 @@ const Toolbar = ({ action, setAction }) =>
       {
         style: {
           display: "grid",
-          gridTemplateColumns: "repeat(7, 50px)",
+          gridTemplateColumns: "repeat(8, 50px)",
           gridTemplateRows: "50px"
         }
       },
@@ -70,6 +70,7 @@ const Toolbar = ({ action, setAction }) =>
       e(Tool, { action: "aqua", setAction, selected: action === "aqua" }),
       e(Tool, { action: "violet", setAction, selected: action === "violet" }),
       e(Tool, { action: "pink", setAction, selected: action === "pink" }),
+      e(Tool, { action: "red", setAction, selected: action === "red" }),
     )
   );
 

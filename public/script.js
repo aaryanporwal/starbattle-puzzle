@@ -162,7 +162,6 @@ const App = () => {
         alignItems: 'center',
       }
     },
-    e(Toolbar, { action, setAction }),
     e('div',
       {
         // with the SVG board, clicking on top row board squares causes unexpected text selection
@@ -174,6 +173,7 @@ const App = () => {
       e(SnapshotButton, { takeSnapshot }),
       e(Reset, { reset })
     ),
+    e(Toolbar, { action, setAction }),
     // don't render the board if the size doesn't match
     // i.e. we've received a puzzle update but not yet a board update
     puzzle && board && board.length === puzzle.size &&
