@@ -157,9 +157,10 @@ const App = () => {
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: '',
+        gridTemplateColumns: '1fr max-content 1fr',
       }
     },
+    'Left',
     e(
       "div",
       {
@@ -191,7 +192,8 @@ const App = () => {
         e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
       puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
         e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
-    )
+    ),
+    'Right'
   );
 };
 

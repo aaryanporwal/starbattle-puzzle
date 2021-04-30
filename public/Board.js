@@ -135,19 +135,31 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   }
   children.push(e('g', {}, gridlines));
 
+  const labels = [];
+  for (let i = 0; i < size; i++) {
+    labels.push(
+      e('text', { x: , y: }, )
+    );
+  }
+  
   return e(
     "svg",
     {
-      width: size * squareSize + strokeWidth,
-      height: size * squareSize + strokeWidth,
+      width: (size + 1) * squareSize,
+      height: (size + 1) * squareSize,
     },
     e(
       // offset from svg origin so border stroke doesn't get clipped
       'g',
       {
-        transform: `translate(${strokeWidth / 2} ${strokeWidth / 2})`
+        transform: `translate(${squareSize / 2} ${squareSize / 2})`
       },
       children
+    ),
+    e(
+      'g',
+      { style: { fontSize: '18px', fontFace: 'sans-serif' } },
+      labels
     )
   );
 };
