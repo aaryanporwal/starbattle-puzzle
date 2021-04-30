@@ -19,7 +19,7 @@ const SnapshotButton = ({ takeSnapshot }) =>
       },
       onClick: takeSnapshot
     },
-    "Take snapshot"
+    "Snapshot"
   );
 
 const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
@@ -55,7 +55,7 @@ const Reset = ({ reset }) =>
       },
       onClick: reset
     },
-    "Reset Game"
+    "Reset"
   );
 
 const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
