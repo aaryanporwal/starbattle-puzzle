@@ -44,10 +44,14 @@ const Square = ({
         ? e(Star, { conflict, size: size / 2 })
         : null,
     ),
-    top && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M 0 0 L ${size} 0` }),
-    left && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M 0 0 L 0 ${size}` }),
-    bottom && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M 0 ${size} L ${size} ${size}` }),
-    right && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M ${size} 0 L ${size} ${size}` }),
+    e(
+      'g',
+      { stroke: 'black', strokeWidth, strokeLinecap: 'square' },
+      top && e('path', { d: `M 0 0 L ${size} 0` }),
+      left && e('path', { d: `M 0 0 L 0 ${size}` }),
+      bottom && e('path', { d: `M 0 ${size} L ${size} ${size}` }),
+      right && e('path', { d: `M ${size} 0 L ${size} ${size}` }),
+    )
   );
 };
 
