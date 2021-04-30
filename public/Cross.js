@@ -2,13 +2,19 @@ import React from "https://cdn.skypack.dev/react";
 
 const e = React.createElement;
 
-const Cross = ({ size }) =>
+const Cross = ({ onClick, size }) =>
   e(
     "svg",
     {
       width: size,
-      height: size
+      height: size,
+      onClick
     },
+    e(
+      'path',
+      {
+        stroke: 'red',
+        strokeWidth: size / 5
     e("line", {
       x1: 0,
       y1: 0,

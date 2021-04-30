@@ -165,6 +165,7 @@ const App = () => {
     e(Toolbar, { action, setAction }),
     e('div',
       {
+        // with the SVG board, clicking on top row board squares causes unexpected text selection
         style: { userSelect: 'none' }
       },
       puzzleList && currentPuzzle &&

@@ -2,12 +2,13 @@ import React from "https://cdn.skypack.dev/react";
 
 const e = React.createElement;
 
-const Star = ({ conflict, size }) =>
+const Star = ({ onClick, conflict, size }) =>
   e(
     "svg",
     {
       width: size,
-      height: size
+      height: size,
+      onClick
     },
     e("polygon", {
       // points of the star lie on a circle with radius size / 2

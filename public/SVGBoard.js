@@ -5,10 +5,7 @@ import colors from "./colors.js";
 
 const e = React.createElement;
 
-function borderStyle(size, thick) {
-  if (size > 20) return thick ? "solid black 4px" : "dashed black 1px";
-  else return thick ? "solid black 2px" : "dashed black 1px";
-}
+const strokeWidth = 4
 
 const Square = ({
   size,
@@ -35,15 +32,23 @@ const Square = ({
       fill: colors[color],
       stroke: 'black',
       strokeDasharray: '4 4',
-      onClick: onClick
+      onClick
     }),
-    icon === "cross"
-      ? e(Cross, { size: size / 2 })
-      : icon === "star"
-      ? e(Star, { conflict, size: size / 2 })
-      : null,
-    top && e('path', { stroke: 'black', strokeWidth: '4', d: `M 0 0 L ${size} 0` }),
-    bottom && e('path', { stroke: 'black', strokeWidth: '4', d: `M 0 ${size} L ${size} ${size}` }),
+    e(
+      'g',
+      {
+        transform: `translate(${size/4} ${size/4})`
+      },
+      icon === "cross"
+        ? e(Cross, { onClick, size: size / 2 })
+        : icon === "star"
+        ? e(Star, { onClick, conflict, size: size / 2 })
+        : null,
+    ),
+    top && e('path', { stroke: 'black', strokeWidth, d: `M 0 0 L ${size} 0` }),
+    left && e('path', { stroke: 'black', strokeWidth, d: `M 0 0 L 0 ${size}` }),
+    bottom && e('path', { stroke: 'black', strokeWidth, d: `M 0 ${size} L ${size} ${size}` }),
+    right && e('path', { stroke: 'black', strokeWidth, d: `M ${size} 0 L ${size} ${size}` }),
   );
 };
 
