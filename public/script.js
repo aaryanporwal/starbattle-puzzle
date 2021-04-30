@@ -146,45 +146,19 @@ const App = () => {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr',
         gridTemplateRows: '1fr 1fr 1fr',
+        maxHeight: '100vh',
       },
     },
-    e('div', {}, ''),
-    e('div', {},
+    e('div'),
+    e('div', { style: { alignSelf: 'end' }},
       e(Title),
       e(
         Buttons,
         { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }
       ),
     ),
-    
-    
-    e(
-    "div",
-    {
-      style: {
-        margin: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }
-    },
-    e('h1',
-      { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
-      'STAR BATTLE PUZZLE PARTY'
-    ),
-    e(Buttons, { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }),
-    e('div',
-      {
-        style: {
-          display: 'grid',
-          gridTemplateColumns: `1fr 1fr 1fr`,
-          gridColumnGap: '5px',
-          width: '100%',
-        }
-      },
+    e('div'),
     e(Toolbar, { action, setAction }),
-    // don't render the board if the size doesn't match
-    // i.e. we've received a puzzle update but not yet a board update
     puzzle && board && board.length === puzzle.size && e(
       Labels,
       { size: puzzle.size, squareSize: 500 / puzzle.size },
@@ -192,8 +166,47 @@ const App = () => {
     ),
     puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
       e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
-    ),
   );
+  
+
+    
+    
+//     e(
+//     "div",
+//     {
+//       style: {
+//         margin: 'auto',
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//       }
+//     },
+//     e('h1',
+//       { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
+//       'STAR BATTLE PUZZLE PARTY'
+//     ),
+//     e(Buttons, { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }),
+//     e('div',
+//       {
+//         style: {
+//           display: 'grid',
+//           gridTemplateColumns: `1fr 1fr 1fr`,
+//           gridColumnGap: '5px',
+//           width: '100%',
+//         }
+//       },
+//     e(Toolbar, { action, setAction }),
+//     // don't render the board if the size doesn't match
+//     // i.e. we've received a puzzle update but not yet a board update
+//     puzzle && board && board.length === puzzle.size && e(
+//       Labels,
+//       { size: puzzle.size, squareSize: 500 / puzzle.size },
+//       e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
+//     ),
+//     puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
+//       e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
+//     ),
+//   );
 };
 
 ReactDOM.render(e(App), document.getElementById("app"));

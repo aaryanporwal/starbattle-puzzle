@@ -66,8 +66,12 @@ const Checkbox = ({ check, setCheck }) => {
 const Buttons = ({ currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }) =>
   e('div',
     {
-      // with the SVG board, clicking on top row board squares causes unexpected text selection
-      style: { userSelect: 'none' }
+      style: {
+        display: 'grid',
+        gridColumnsTemplate: '1fr 1fr 1fr 1fr',
+        // with the SVG board, clicking on top row board squares causes unexpected text selection
+        userSelect: 'none'
+      }
     },
     puzzleList && currentPuzzle &&
       e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
