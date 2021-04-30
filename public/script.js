@@ -96,7 +96,38 @@ const Checkbox = ({ check, setCheck }) => {
 const Labels = ({ size, squareSize, children }) => {
   return e(
     'div',
-    { style},
+    {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: `${squareSize / 2}px ${size * squareSize}px`,
+        gridTemplateRows: `${squareSize / 2}px ${size * squareSize}px`,
+      }
+    },
+    e('div', {}, ''),
+    e(
+      'div',
+      {
+        style: {
+          display: 'grid',
+          gridTemplateColumns: `repeat(${size}, ${squareSize}px)`,
+        }
+      },
+      new Array(size).fill().map((_, i) =>
+        e('div', { style: { margin: 'auto' } }, i)
+      )
+    ),
+    e(
+      'div',
+      {
+        style: {
+          display: 'grid',
+          gridTemplateRows: `repeat(${size}, ${squareSize}px)`,
+        }
+      },
+      new Array(size).fill().map((_, i) =>
+        e('div', { style: { margin: 'auto' } }, i + 1)
+      )
+    ),
     children
   );
 }
