@@ -3,8 +3,6 @@ import ReactDOM from "https://cdn.skypack.dev/react-dom";
 import * as Immer from "https://cdn.skypack.dev/immer";
 import io from "https://cdn.skypack.dev/socket.io-client";
 
-import Cross from './Cross.js';
-import Star from './Star.js';
 import Board from './Board.js';
 import Toolbar from './Toolbar.js';
 
@@ -84,7 +82,7 @@ const Checkbox = ({ check, setCheck }) => {
     {
       style: { margin: '10px' }
     },
-    'Check board',
+    'Check',
     e('input',
       {
         type: 'checkbox',
@@ -141,6 +139,7 @@ const App = () => {
   };
 
   const restoreSnapshot = board => {
+    setBoard(board);
     if (!socket.current) return;
     socket.current.emit("restoreSnapshot", board);
   };
@@ -163,6 +162,10 @@ const App = () => {
         alignItems: 'center',
       }
     },
+    e('h1',
+      { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
+      'STAR BATTLE PUZZLE PARTY'
+    ),
     e('div',
       {
         // with the SVG board, clicking on top row board squares causes unexpected text selection

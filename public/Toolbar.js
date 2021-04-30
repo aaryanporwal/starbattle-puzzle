@@ -51,7 +51,7 @@ const Toolbar = ({ action, setAction }) =>
     "div",
     {
       style: {
-        padding: "20px"
+        padding: "10px"
       }
     },
     e(
