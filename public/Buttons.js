@@ -48,9 +48,9 @@ const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
 
 const Checkbox = ({ check, setCheck }) => {
   return e(
-    'span',
+    'div',
     {
-      style: { margin: '10px' }
+      style: { margin: 'auto' }
     },
     'Check',
     e('input',
@@ -68,7 +68,7 @@ const Buttons = ({ currentPuzzle, puzzleList, choosePuzzle, check, setCheck, tak
     {
       style: {
         display: 'grid',
-        gridColumnsTemplate: '1fr 1fr 1fr 1fr',
+        gridTemplateColumns: '1fr 1fr 1fr 1fr',
         // with the SVG board, clicking on top row board squares causes unexpected text selection
         userSelect: 'none'
       }
