@@ -48,9 +48,9 @@ const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
 
 const Checkbox = ({ check, setCheck }) => {
   return e(
-    'div',
+    'button',
     {
-      style: { margin: 'auto' }
+      onClick: () => setCheck(!check)
     },
     'Check',
     e('input',
