@@ -133,6 +133,7 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   
   for (let row = 0; row < size; row++) {
     for (let column = 0; column < size; column++) {
+      if (!board[row][column]) debugger;
       if (board[row][column].icon === 'star') {
         rowCounts[row]++;
         columnCounts[column]++;
@@ -352,11 +353,13 @@ const App = () => {
   React.useEffect(() => {
     socket.current = io();
     socket.current.on("puzzle", puzzle => {
-      if (board && board.length !== puzzle.size)
-        setBoard(null);
-      if (snapshots && snapshots.length > 0 && snapshots[0].length !== puzzle.size)
-        setSnapshots(null);
-      setPuzzle(puzzle)
+      ReactDOM.unstable_batchedUpdates(() => {
+        if (board && board.length !== puzzle.size)
+          setBoard(null);
+        if (snapshots && snapshots.length > 0 && snapshots[0].length !== puzzle.size)
+          setSnapshots(null);
+        setPuzzle(puzzle)
+      });
     });
     socket.current.on("board", board => setBoard(board));
     socket.current.on("puzzleSelection", puzzleSelection => {

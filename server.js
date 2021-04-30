@@ -135,10 +135,10 @@ io.on("connection", socket => {
     snapshots.splice(0, snapshots.length);
     current_puzzle = puzzleName;
     initializeGlobalBoard(current_puzzle);
+    emitPuzzleSelection(io);
+    emitSnapshots(io);
     emitPuzzle(io);
     emitBoard(io);
-    emitSnapshots(io);
-    emitPuzzleSelection(io);
   });
 });
 
