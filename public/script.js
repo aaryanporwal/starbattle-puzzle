@@ -16,7 +16,6 @@ const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
       style: {
         display: "flex",
         flexWrap: 'wrap',
-        justifyContent: 'center',
       }
     },
     ...snapshots.map(board =>
@@ -67,7 +66,7 @@ const Title = () =>
     {
       style: {
         fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic',
-        margin: '10px',
+        marginBottom: '10px',
         whiteSpace: 'nowrap'
       }
     },
@@ -159,7 +158,7 @@ const App = () => {
     e('div', { style: { gridArea: 'columnLabels'} },
       puzzle && e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
     ),
-    e('div', { style: { display: 'grid', gridArea: 'toolbar'} },
+    e('div', { style: { gridArea: 'toolbar', display: 'grid', placeItems: "center right", paddingRight: "25px" } },
       e(Toolbar, { action, setAction })
     ),
     e('div', { style: { gridArea: 'rowLabels' } },
@@ -169,7 +168,7 @@ const App = () => {
       puzzle && board && board.length === puzzle.size &&
         e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick })
     ),
-    e('div', { style: { gridArea: 'snapshots'} },
+    e('div', { style: { gridArea: 'snapshots' } },
       puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
         e(Snapshots, { puzzle, snapshots, check, restoreSnapshot })
     ),

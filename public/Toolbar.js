@@ -54,8 +54,6 @@ const Toolbar = ({ action, setAction }) =>
         display: "grid",
         gridTemplateRows: "repeat(8, 50px)",
         gridTemplateColumns: "50px",
-        placeContent: "center right",
-        paddingRight: "25px",
       }
     },
     e(Tool, { action: "star", setAction, selected: action === "star" }),
