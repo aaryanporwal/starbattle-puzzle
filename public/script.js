@@ -60,15 +60,9 @@ const Star = ({ conflict, size }) =>
   );
 
 const colorSelected = {
-  green: "hsl(120, 50%, 50%)",
-  red: "hsl(0, 50%, 50%)",
-  yellow: "hsl(50, 50%, 50%)"
-};
-
-const colorUnselected = {
-  green: "hsl(120, 50%, 40%)",
-  red: "hsl(0, 50%, 40%)",
-  yellow: "hsl(50, 50%, 40%)"
+  green: "hsl(120, 80%, 50%)",
+  red: "hsl(0, 80%, 50%)",
+  yellow: "hsl(60, 80%, 50%)"
 };
 
 function borderStyle(size, thick) {
@@ -133,7 +127,6 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   
   for (let row = 0; row < size; row++) {
     for (let column = 0; column < size; column++) {
-      if (!board[row][column]) debugger;
       if (board[row][column].icon === 'star') {
         rowCounts[row]++;
         columnCounts[column]++;
@@ -302,8 +295,6 @@ const Reset = ({ reset }) =>
     "Reset Game"
   );
 
-const Title = () => e("h1", {}, "Star Battle Puzzle Party");
-
 const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
   return e(
     "select",
@@ -352,15 +343,7 @@ const App = () => {
 
   React.useEffect(() => {
     socket.current = io();
-    socket.current.on("puzzle", puzzle => {
-      ReactDOM.unstable_batchedUpdates(() => {
-        if (board && board.length !== puzzle.size)
-          setBoard(null);
-        if (snapshots && snapshots.length > 0 && snapshots[0].length !== puzzle.size)
-          setSnapshots(null);
-        setPuzzle(puzzle)
-      });
-    });
+    socket.current.on("puzzle", puzzle => setPuzzle(puzzle));
     socket.current.on("board", board => setBoard(board));
     socket.current.on("puzzleSelection", puzzleSelection => {
       setPuzzleList(puzzleSelection.puzzleList);
@@ -415,19 +398,21 @@ const App = () => {
         alignItems: 'center',
       }
     },
-    e(Title),
+    e(Toolbar, { action, setAction }),
     e('div',
       {},
-      e(Toolbar, { action, setAction }),
       puzzleList && currentPuzzle &&
         e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
       e(Checkbox, { check, setCheck }),
       e(SnapshotButton, { takeSnapshot }),
       e(Reset, { reset })
     ),
-    puzzle && board &&
+    // don't render the board if the size doesn't match
+    // i.e. we've received a puzzle update but not yet a board update
+    puzzle && board && board.length === puzzle.size &&
       e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
-    e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
+    puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
+      e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
   );
 };
 
