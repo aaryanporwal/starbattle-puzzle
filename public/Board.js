@@ -26,8 +26,6 @@ const Square = ({
       width: size,
       height: size,
       fill: colors[color],
-      stroke: 'black',
-      strokeDasharray: `${strokeWidth} ${strokeWidth}`,
     }),
     e(
       'g',
@@ -119,6 +117,23 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
       );
     }
   }
+
+  const gridlines = [];
+  for (let i = 0; i < size; i++) {
+    gridlines.push(
+      e('path',        
+        {
+          stroke: 'black',
+          strokeDasharray: `${strokeWidth} ${strokeWidth}`,
+          d: `
+            M 0 ${i * squareSize} l ${size * squareSize} 0
+            M ${i * squareSize} 0 l 0 ${size * squareSize}
+          `,
+        }
+      )
+    );
+  }
+  children.push(e('g', {}, gridlines));
 
   return e(
     "svg",
