@@ -38,7 +38,7 @@ const Tool = ({ action, setAction, selected }) => {
     {
       style: {
         display: "grid",
-        backgroundColor: selected ? "lightgray" : "white"
+        backgroundColor: selected ? "white" : ""
       },
       onClick: () => setAction(action)
     },

@@ -10,7 +10,6 @@ import Toolbar from './Toolbar.js';
 
 const e = React.createElement;
 
-
 const SnapshotButton = ({ takeSnapshot }) =>
   e(
     "button",
@@ -157,6 +156,7 @@ const App = () => {
     "div",
     {
       style: {
+        margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -164,7 +164,8 @@ const App = () => {
     },
     e(Toolbar, { action, setAction }),
     e('div',
-      {},
+      {
+      },
       puzzleList && currentPuzzle &&
         e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
       e(Checkbox, { check, setCheck }),
