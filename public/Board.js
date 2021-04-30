@@ -138,7 +138,8 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
   const labels = [];
   for (let i = 0; i < size; i++) {
     labels.push(
-      e('text', { x: , y: }, )
+      e('text', { x: squareSize * i + squareSize / 2, y: 0 }, i),
+      e('text', { x: 0, y: squareSize * i + squareSize / 2 }, i),
     );
   }
   
