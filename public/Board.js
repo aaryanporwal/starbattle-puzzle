@@ -31,7 +31,7 @@ const Square = ({
       height: size,
       fill: colors[color],
       stroke: 'black',
-      strokeDasharray: '4 4',
+      strokeDasharray: `${strokeWidth} ${strokeWidth}`,
     }),
     e(
       'g',
@@ -44,10 +44,10 @@ const Square = ({
         ? e(Star, { conflict, size: size / 2 })
         : null,
     ),
-    top && e('path', { stroke: 'black', strokeWidth, d: `M 0 0 L ${size} 0` }),
-    left && e('path', { stroke: 'black', strokeWidth, d: `M 0 0 L 0 ${size}` }),
-    bottom && e('path', { stroke: 'black', strokeWidth, d: `M 0 ${size} L ${size} ${size}` }),
-    right && e('path', { stroke: 'black', strokeWidth, d: `M ${size} 0 L ${size} ${size}` }),
+    top && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M 0 0 L ${size} 0` }),
+    left && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M 0 0 L 0 ${size}` }),
+    bottom && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M 0 ${size} L ${size} ${size}` }),
+    right && e('path', { stroke: 'black', strokeWidth, strokeLinecap: 'square', d: `M ${size} 0 L ${size} ${size}` }),
   );
 };
 
@@ -128,8 +128,12 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
       height: size * squareSize + strokeWidth,
     },
     e(
-      'g'
-    children
+      'g',
+      {
+        transform: `translate(${strokeWidth / 2} ${strokeWidth / 2})`
+      },
+      children
+    )
   );
 };
 
