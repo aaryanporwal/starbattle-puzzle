@@ -5,7 +5,7 @@ import io from "https://cdn.skypack.dev/socket.io-client";
 
 import Cross from './Cross.js';
 import Star from './Star.js';
-import Board from './SVGBoard.js';
+import Board from './Board.js';
 import Toolbar from './Toolbar.js';
 
 const e = React.createElement;
