@@ -37,7 +37,7 @@ const Square = ({
         borderLeft: borderStyle(size, left),
         borderRight: borderStyle(size, right)
       },
-      onClick
+      onClick: onClick,
     },
     e(
       "div",

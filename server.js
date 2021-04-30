@@ -64,7 +64,7 @@ function initializeGlobalBoard(puzzleName) {
   globalBoard = new Array(puzzle.size)
     .fill()
     .map((_, i) =>
-      new Array(puzzle.size).fill().map((_, j) => ({ color: "white", icon: "" }))
+      new Array(puzzle.size).fill().map((_, j) => ({ color: "", icon: "" }))
     );
 }
 
