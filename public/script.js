@@ -93,6 +93,14 @@ const Checkbox = ({ check, setCheck }) => {
   )
 }
 
+const Labels = ({ size, squareSize, children }) => {
+  return e(
+    'div',
+    { style},
+    children
+  );
+}
+
 const App = () => {
   const [action, setAction] = React.useState("cross");
   const [puzzle, setPuzzle] = React.useState(null);
@@ -151,7 +159,7 @@ const App = () => {
   const choosePuzzle = puzzleName => {
     socket.current.emit("choosePuzzle", puzzleName);    
   };
-  
+
   return e(
     "div",
     {
@@ -180,8 +188,11 @@ const App = () => {
     e(Toolbar, { action, setAction }),
     // don't render the board if the size doesn't match
     // i.e. we've received a puzzle update but not yet a board update
-    puzzle && board && board.length === puzzle.size &&
+    puzzle && board && board.length === puzzle.size && e(
+      Labels,
+      { size: puzzle.size, squareSize: 500 / puzzle.size },
       e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
+    ),
     puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
       e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
   );
