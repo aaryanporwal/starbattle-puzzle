@@ -165,6 +165,7 @@ const App = () => {
     e(Toolbar, { action, setAction }),
     e('div',
       {
+        style: { userSelect: 'none' }
       },
       puzzleList && currentPuzzle &&
         e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
