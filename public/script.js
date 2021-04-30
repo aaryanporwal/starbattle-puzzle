@@ -74,35 +74,33 @@ const Labels = ({ size, squareSize, children }) => {
   );
 }
 
-const RowLabels = ({ size, squareSize }) => {
-  let labelSize = 25;
-  return e(
+const RowLabels = ({ size, squareSize }) =>
+  e(
     'div',
-      {
-        style: {
-          display: 'grid',
-          gridTemplateColumns: `repeat(${size}, ${squareSize}px)`,
-        }
-      },
-      new Array(size).fill().map((_, i) =>
-        e('div', { style: { margin: 'auto' } }, alphabet[i])
-      )
-    ),
-    e(
-      'div',
-      {
-        style: {
-          display: 'grid',
-          gridTemplateRows: `repeat(${size}, ${squareSize}px)`,
-        }
-      },
-      new Array(size).fill().map((_, i) =>
-        e('div', { style: { margin: 'auto' } }, i + 1)
-      )
-    ),
-    children
-  );
-}
+    {
+      style: {
+        display: 'grid',
+        gridTemplateRows: `repeat(${size}, ${squareSize}px)`,
+      }
+    },
+    new Array(size).fill().map((_, i) =>
+      e('div', { style: { margin: 'auto' } }, i + 1)
+    )
+  )
+
+const ColumnLabels = ({ size, squareSize }) =>
+  e(
+    'div',
+    {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: `repeat(${size}, ${squareSize}px)`,
+      }
+    },
+    new Array(size).fill().map((_, i) =>
+      e('div', { style: { margin: 'auto' } }, i + 1)
+    )
+  )
 
 const Title = () =>
   e('h1',
@@ -180,30 +178,40 @@ const App = () => {
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: `1fr 25px ${500 + 25 + 4}px 1fr`,
-        gridTemplateRows: `1fr 25px ${500 + 25 + 4}px 1fr`,
+        gridTemplateColumns: `1fr 25px ${500 + 4}px 25px 1fr`,
+        gridTemplateRows: `1fr 25px ${500 + 4}px 25px 1fr`,
+        gridTemplateAreas: `
+          ".       .         titleButtons . ."
+          ".       .         columnLabels . ."
+          "toolbar rowLabels board        . snapshots"
+        `,
         maxHeight: '100vh',
       },
     },
-    e('div'),
-    e('div'),
-    e('div', { style: { alignSelf: 'end' }},
+    e('div', { style: { gridArea: 'titleButtons', alignSelf: 'end' }},
       e(Title),
       e(
         Buttons,
         { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }
       ),
     ),
-    e('div'),
-    e(Toolbar, { action, setAction }),
-    e('div'),
-    puzzle && board && board.length === puzzle.size && e(
-      Labels,
-      { size: puzzle.size, squareSize: 500 / puzzle.size },
-      e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick }),
+    e('div', { style: { gridArea: 'columnLabels'} },
+      puzzle && e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
     ),
-    puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
-      e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
+    e('div', { style: { gridArea: 'toolbar'} },
+      e(Toolbar, { action, setAction })
+    ),
+    e('div', { style: { gridArea: 'rowLabels' } },
+      puzzle && e(RowLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
+    ),
+    e('div', { style: { gridArea: 'board'} },
+      puzzle && board && board.length === puzzle.size &&
+        e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick })
+    ),
+    e('div', { style: { gridArea: 'snapshots'} },
+      puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
+        e(Snapshots, { puzzle, snapshots, check, restoreSnapshot })
+    ),
   );
 };
 
