@@ -134,6 +134,19 @@ const Labels = ({ size, squareSize, children }) => {
   );
 }
 
+const Buttons = () =>
+  e('div',
+    {
+      // with the SVG board, clicking on top row board squares causes unexpected text selection
+      style: { userSelect: 'none' }
+    },
+    puzzleList && currentPuzzle &&
+      e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
+    e(Checkbox, { check, setCheck }),
+    e(SnapshotButton, { takeSnapshot }),
+    e(Reset, { reset })
+  )
+
 const App = () => {
   const [action, setAction] = React.useState("cross");
   const [puzzle, setPuzzle] = React.useState(null);
@@ -207,17 +220,7 @@ const App = () => {
       { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
       'STAR BATTLE PUZZLE PARTY'
     ),
-    e('div',
-      {
-        // with the SVG board, clicking on top row board squares causes unexpected text selection
-        style: { userSelect: 'none' }
-      },
-      puzzleList && currentPuzzle &&
-        e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
-      e(Checkbox, { check, setCheck }),
-      e(SnapshotButton, { takeSnapshot }),
-      e(Reset, { reset })
-    ),
+    e(Buttons, { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }),
     e('div',
       {
         style: {

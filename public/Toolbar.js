@@ -51,29 +51,23 @@ const Toolbar = ({ action, setAction }) =>
     "div",
     {
       style: {
-        padding: "10px"
+        display: "grid",
+        gridTemplateRows: "repeat(8, 50px)",
+        gridTemplateColumns: "50px",
+        justifyContent: "right",
+        alignContent: "center",
+        paddingRight: "25px",
+        height: "500px"
       }
     },
-    e(
-      "div",
-      {
-        style: {
-          display: "grid",
-          gridTemplateRows: "repeat(8, 50px)",
-          gridTemplateColumns: "50px",
-          justifyContent: "right",
-          paddingRight: "25px",
-        }
-      },
-      e(Tool, { action: "star", setAction, selected: action === "star" }),
-      e(Tool, { action: "cross", setAction, selected: action === "cross" }),
-      e(Tool, { action: "yellow", setAction, selected: action === "yellow" }),
-      e(Tool, { action: "green", setAction, selected: action === "green" }),
-      e(Tool, { action: "aqua", setAction, selected: action === "aqua" }),
-      e(Tool, { action: "violet", setAction, selected: action === "violet" }),
-      e(Tool, { action: "pink", setAction, selected: action === "pink" }),
-      e(Tool, { action: "red", setAction, selected: action === "red" }),
-    )
-  );
+    e(Tool, { action: "star", setAction, selected: action === "star" }),
+    e(Tool, { action: "cross", setAction, selected: action === "cross" }),
+    e(Tool, { action: "yellow", setAction, selected: action === "yellow" }),
+    e(Tool, { action: "green", setAction, selected: action === "green" }),
+    e(Tool, { action: "aqua", setAction, selected: action === "aqua" }),
+    e(Tool, { action: "violet", setAction, selected: action === "violet" }),
+    e(Tool, { action: "pink", setAction, selected: action === "pink" }),
+    e(Tool, { action: "red", setAction, selected: action === "red" }),
+  )
 
 export default Toolbar;
