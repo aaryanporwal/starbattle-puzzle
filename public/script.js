@@ -33,47 +33,6 @@ const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
     )
   );
 
-const Labels = ({ size, squareSize, children }) => {
-  const alphabet = [...'abcdefghijklmnopqrstuvwxyz'];
-  let labelSize = 25;
-  return e(
-    'div',
-    {
-      style: {
-        display: 'grid',
-        gridTemplateColumns: `${labelSize}px ${size * squareSize}px`,
-        gridTemplateRows: `${labelSize}px ${size * squareSize}px`,
-      }
-    },
-    e('div', {}, ''),
-    e(
-      'div',
-      {
-        style: {
-          display: 'grid',
-          gridTemplateColumns: `repeat(${size}, ${squareSize}px)`,
-        }
-      },
-      new Array(size).fill().map((_, i) =>
-        e('div', { style: { margin: 'auto' } }, alphabet[i])
-      )
-    ),
-    e(
-      'div',
-      {
-        style: {
-          display: 'grid',
-          gridTemplateRows: `repeat(${size}, ${squareSize}px)`,
-        }
-      },
-      new Array(size).fill().map((_, i) =>
-        e('div', { style: { margin: 'auto' } }, i + 1)
-      )
-    ),
-    children
-  );
-}
-
 const RowLabels = ({ size, squareSize }) =>
   e(
     'div',
@@ -88,6 +47,7 @@ const RowLabels = ({ size, squareSize }) =>
     )
   )
 
+const alphabet = [...'abcdefghijklmnopqrstuvwxyz'];
 const ColumnLabels = ({ size, squareSize }) =>
   e(
     'div',
@@ -98,7 +58,7 @@ const ColumnLabels = ({ size, squareSize }) =>
       }
     },
     new Array(size).fill().map((_, i) =>
-      e('div', { style: { margin: 'auto' } }, i + 1)
+      e('div', { style: { margin: 'auto' } }, alphabet[i])
     )
   )
 
@@ -186,6 +146,7 @@ const App = () => {
           "toolbar rowLabels board        . snapshots"
         `,
         maxHeight: '100vh',
+        minHeight: '100vh',
       },
     },
     e('div', { style: { gridArea: 'titleButtons', alignSelf: 'end' }},
@@ -198,7 +159,7 @@ const App = () => {
     e('div', { style: { gridArea: 'columnLabels'} },
       puzzle && e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
     ),
-    e('div', { style: { gridArea: 'toolbar'} },
+    e('div', { style: { display: 'grid', gridArea: 'toolbar'} },
       e(Toolbar, { action, setAction })
     ),
     e('div', { style: { gridArea: 'rowLabels' } },
