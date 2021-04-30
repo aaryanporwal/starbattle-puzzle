@@ -60,9 +60,11 @@ const Star = ({ conflict, size }) =>
   );
 
 const colorSelected = {
-  green: "hsl(120, 80%, 50%)",
-  red: "hsl(0, 80%, 50%)",
-  yellow: "hsl(60, 80%, 50%)"
+  yellow: "hsl(60, 100%, 75%)",
+  green: "hsl(120, 100%, 75%)",
+  aqua: "hsl(180, 100%, 75%)",
+  violet: "hsl(240, 100%, 75%)",
+  pink: "hsl(300, 100%, 75%)",
 };
 
 function borderStyle(size, thick) {
@@ -235,15 +237,17 @@ const Toolbar = ({ action, setAction }) =>
       {
         style: {
           display: "grid",
-          gridTemplateColumns: "repeat(5, 50px)",
+          gridTemplateColumns: "repeat(7, 50px)",
           gridTemplateRows: "50px"
         }
       },
       e(Tool, { action: "star", setAction, selected: action === "star" }),
       e(Tool, { action: "cross", setAction, selected: action === "cross" }),
-      e(Tool, { action: "red", setAction, selected: action === "red" }),
+      e(Tool, { action: "yellow", setAction, selected: action === "yellow" }),
       e(Tool, { action: "green", setAction, selected: action === "green" }),
-      e(Tool, { action: "yellow", setAction, selected: action === "yellow" })
+      e(Tool, { action: "aqua", setAction, selected: action === "aqua" }),
+      e(Tool, { action: "violet", setAction, selected: action === "violet" }),
+      e(Tool, { action: "pink", setAction, selected: action === "pink" }),
     )
   );
 
@@ -332,7 +336,7 @@ const Checkbox = ({ check, setCheck }) => {
 }
 
 const App = () => {
-  const [action, setAction] = React.useState("green");
+  const [action, setAction] = React.useState("cross");
   const [puzzle, setPuzzle] = React.useState(null);
   const [currentPuzzle, setCurrentPuzzle] = React.useState(null);
   const [puzzleList, setPuzzleList] = React.useState(null);
