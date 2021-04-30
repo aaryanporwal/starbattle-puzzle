@@ -67,6 +67,7 @@ const Buttons = ({ currentPuzzle, puzzleList, choosePuzzle, check, setCheck, tak
   e('div',
     {
       style: {
+        marginTop: '25px',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr 1fr',
         // with the SVG board, clicking on top row board squares causes unexpected text selection

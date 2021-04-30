@@ -2,8 +2,18 @@
 
 Multi-player Star Battle
 
-# TODO
+# Who?
+
+* Aaryan Porwal
+* Alya Amarsy
+* Dan Murphy
+* Hazem Alhalabi
+* Jake Donham
+* Linna Li
+* Maya Josyula
+* Peter Malmgren
+
+# Todo
 
 * Generate Puzzles or take from online
 * Description link
-* add column / row labels to help communication

@@ -66,7 +66,7 @@ const Title = () =>
     {
       style: {
         fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic',
-        marginBottom: '10px',
+        marginBottom: '25px',
         whiteSpace: 'nowrap'
       }
     },
@@ -140,22 +140,19 @@ const App = () => {
         gridTemplateColumns: `1fr 25px ${500 + 4}px 25px 1fr`,
         gridTemplateRows: `1fr 25px ${500 + 4}px 25px 1fr`,
         gridTemplateAreas: `
-          ".       .         titleButtons . ."
+          ".       .         title        . ."
           ".       .         columnLabels . ."
           "toolbar rowLabels board        . snapshots"
+          ".       .         buttons      . ."
         `,
         maxHeight: '100vh',
         minHeight: '100vh',
       },
     },
-    e('div', { style: { gridArea: 'titleButtons', alignSelf: 'end' }},
+    e('div', { style: { gridArea: 'title', alignSelf: 'end' }},
       e(Title),
-      e(
-        Buttons,
-        { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }
-      ),
     ),
-    e('div', { style: { gridArea: 'columnLabels'} },
+    e('div', { style: { gridArea: 'columnLabels' } },
       puzzle && e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
     ),
     e('div', { style: { gridArea: 'toolbar', display: 'grid', placeItems: "center right", paddingRight: "25px" } },
@@ -171,6 +168,12 @@ const App = () => {
     e('div', { style: { gridArea: 'snapshots' } },
       puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
         e(Snapshots, { puzzle, snapshots, check, restoreSnapshot })
+    ),
+    e('div', { style: { gridArea: 'buttons' } },
+      e(
+        Buttons,
+        { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }
+      )
     ),
   );
 };
