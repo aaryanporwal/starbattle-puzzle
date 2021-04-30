@@ -62,6 +62,7 @@ const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
   return e(
     "select",
     {
+      style: { margin: '10px '},
       onChange: e => choosePuzzle(e.currentTarget.value)
     },
     puzzleList.map(puzzleName =>
@@ -81,7 +82,7 @@ const Checkbox = ({ check, setCheck }) => {
   return e(
     'span',
     {
-      style: { margin: '5px' }
+      style: { margin: '10px' }
     },
     'Check board',
     e('input',

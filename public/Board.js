@@ -12,10 +12,6 @@ const Square = ({
   column,
   state,
   onClick,
-  top,
-  bottom,
-  left,
-  right,
   conflict
 }) => {
   const { color, icon } = state;
@@ -44,14 +40,6 @@ const Square = ({
         ? e(Star, { conflict, size: size / 2 })
         : null,
     ),
-    e(
-      'g',
-      { stroke: 'black', strokeWidth, strokeLinecap: 'square' },
-      top && e('path', { d: `M 0 0 L ${size} 0` }),
-      left && e('path', { d: `M 0 0 L 0 ${size}` }),
-      bottom && e('path', { d: `M 0 ${size} L ${size} ${size}` }),
-      right && e('path', { d: `M ${size} 0 L ${size} ${size}` }),
-    )
   );
 };
 
@@ -116,11 +104,18 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
           state,
           onClick,
           conflict,
-          top,
-          bottom,
-          left,
-          right
-        })
+        }),
+        e(
+          'g',
+          {
+            transform: `translate(${squareSize * column} ${squareSize * row})`,
+            stroke: 'black', strokeWidth, strokeLinecap: 'square'
+          },
+          top && e('path', { d: `M 0 0 L ${squareSize} 0` }),
+          left && e('path', { d: `M 0 0 L 0 ${squareSize}` }),
+          bottom && e('path', { d: `M 0 ${squareSize} L ${squareSize} ${squareSize}` }),
+          right && e('path', { d: `M ${squareSize} 0 L ${squareSize} ${squareSize}` }),
+        )
       );
     }
   }
@@ -132,6 +127,7 @@ const Board = ({ puzzle, board, check, squareSize, makeOnClick }) => {
       height: size * squareSize + strokeWidth,
     },
     e(
+      // offset from svg origin so border stroke doesn't get clipped
       'g',
       {
         transform: `translate(${strokeWidth / 2} ${strokeWidth / 2})`
