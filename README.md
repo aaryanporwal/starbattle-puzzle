@@ -6,14 +6,16 @@ Multi-player Star Battle
 
 * Aaryan Porwal
 * Alya Amarsy
+* Chetan Kini (playtester)
 * Dan Murphy
 * Hazem Alhalabi
 * Jake Donham
 * Linna Li
 * Maya Josyula
 * Peter Malmgren
+* Rachel Ehrlich (playtester)
 
 # Todo
 
 * Generate Puzzles or take from online
-* Description link
+* Puzzle description links
