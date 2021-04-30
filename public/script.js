@@ -94,13 +94,15 @@ const Checkbox = ({ check, setCheck }) => {
 }
 
 const Labels = ({ size, squareSize, children }) => {
+  const alphabet = [...'abcdefghijklmnopqrstuvwxyz'];
+  let labelSize = 25;
   return e(
     'div',
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: `${squareSize / 2}px ${size * squareSize}px`,
-        gridTemplateRows: `${squareSize / 2}px ${size * squareSize}px`,
+        gridTemplateColumns: `${labelSize}px ${size * squareSize}px`,
+        gridTemplateRows: `${labelSize}px ${size * squareSize}px`,
       }
     },
     e('div', {}, ''),
@@ -113,7 +115,7 @@ const Labels = ({ size, squareSize, children }) => {
         }
       },
       new Array(size).fill().map((_, i) =>
-        e('div', { style: { margin: 'auto' } }, i)
+        e('div', { style: { margin: 'auto' } }, alphabet[i])
       )
     ),
     e(
@@ -216,6 +218,14 @@ const App = () => {
       e(SnapshotButton, { takeSnapshot }),
       e(Reset, { reset })
     ),
+    e('div',
+      {
+        style: {
+          display: 'grid',
+          gridTemplateColumns: `100px 500px 100px`,
+          gridColumnGap: '5px'
+        }
+      },
     e(Toolbar, { action, setAction }),
     // don't render the board if the size doesn't match
     // i.e. we've received a puzzle update but not yet a board update
@@ -226,6 +236,7 @@ const App = () => {
     ),
     puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
       e(Snapshots, { puzzle, snapshots, check, restoreSnapshot }),
+    ),
   );
 };
 
