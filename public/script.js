@@ -222,8 +222,9 @@ const App = () => {
       {
         style: {
           display: 'grid',
-          gridTemplateColumns: `100px 500px 100px`,
-          gridColumnGap: '5px'
+          gridTemplateColumns: `1fr 500px 1fr`,
+          gridColumnGap: '5px',
+          width: '100%',
         }
       },
     e(Toolbar, { action, setAction }),
