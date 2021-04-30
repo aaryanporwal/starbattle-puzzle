@@ -3,22 +3,11 @@ import ReactDOM from "https://cdn.skypack.dev/react-dom";
 import * as Immer from "https://cdn.skypack.dev/immer";
 import io from "https://cdn.skypack.dev/socket.io-client";
 
+import Buttons from './Buttons.js';
 import Board from './Board.js';
 import Toolbar from './Toolbar.js';
 
 const e = React.createElement;
-
-const SnapshotButton = ({ takeSnapshot }) =>
-  e(
-    "button",
-    {
-      style: {
-        margin: "10px"
-      },
-      onClick: takeSnapshot
-    },
-    "Snapshot"
-  );
 
 const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
   e(
@@ -43,55 +32,6 @@ const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
       )
     )
   );
-
-const Reset = ({ reset }) =>
-  e(
-    "button",
-    {
-      style: {
-        margin: "10px"
-      },
-      onClick: reset
-    },
-    "Reset"
-  );
-
-const PuzzleList = ({ currentPuzzle, puzzleList, choosePuzzle }) => {
-  return e(
-    "select",
-    {
-      style: { margin: '10px '},
-      onChange: e => choosePuzzle(e.currentTarget.value)
-    },
-    puzzleList.map(puzzleName =>
-      e(
-        "option",
-        {
-          value: puzzleName,
-          selected: currentPuzzle === puzzleName
-        },
-        puzzleName
-      )
-    )
-  )
-}
-
-const Checkbox = ({ check, setCheck }) => {
-  return e(
-    'span',
-    {
-      style: { margin: '10px' }
-    },
-    'Check',
-    e('input',
-      {
-        type: 'checkbox',
-        checked: check,
-        onClick: () => setCheck(!check)
-      }
-    )
-  )
-}
 
 const Labels = ({ size, squareSize, children }) => {
   const alphabet = [...'abcdefghijklmnopqrstuvwxyz'];
@@ -134,17 +74,10 @@ const Labels = ({ size, squareSize, children }) => {
   );
 }
 
-const Buttons = () =>
-  e('div',
-    {
-      // with the SVG board, clicking on top row board squares causes unexpected text selection
-      style: { userSelect: 'none' }
-    },
-    puzzleList && currentPuzzle &&
-      e(PuzzleList, { currentPuzzle, puzzleList, choosePuzzle }),
-    e(Checkbox, { check, setCheck }),
-    e(SnapshotButton, { takeSnapshot }),
-    e(Reset, { reset })
+const Title = () =>
+  e('h1',
+    { style: { fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic', margin: '10px' } },
+    'STAR BATTLE PUZZLE PARTY'
   )
 
 const App = () => {
@@ -207,6 +140,25 @@ const App = () => {
   };
 
   return e(
+    'div',
+    {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        gridTemplateRows: '1fr 1fr 1fr',
+      },
+    },
+    e('div', {}, ''),
+    e('div', {},
+      e(Title),
+      e(
+        Buttons,
+        { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }
+      ),
+    ),
+    
+    
+    e(
     "div",
     {
       style: {
@@ -225,7 +177,7 @@ const App = () => {
       {
         style: {
           display: 'grid',
-          gridTemplateColumns: `1fr 500px 1fr`,
+          gridTemplateColumns: `1fr 1fr 1fr`,
           gridColumnGap: '5px',
           width: '100%',
         }
