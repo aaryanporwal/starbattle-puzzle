@@ -1,31 +1,21 @@
-# TODO
+# What?
 
-* UI fixes: icons, snapshots, toolbar highlighting
+Multi-player Star Battle
 
-* Wrapping Snapshots
+# Who?
 
-* Generate Puzzles or Take from Online
-  * select puzzle
+* Aaryan Porwal
+* Alya Amarsy
+* Chetan Kini (play-tester)
+* Dan Murphy
+* Hazem Alhalabi
+* Jake Donham
+* Linna Li
+* Maya Josyula
+* Peter Malmgren
+* Rachel Ehrlich (play-tester)
 
-* Description link
+# Todo
 
-* Clear board without clearing snapshots
-
-# Generating puzzles
-
-* generate regions of grid
-
-  * 
-  
-* checking that a puzzle has a unique solution
-
-  * translate to SAT
-  
-  * boolean variable for each square
-  
-  * boolean constraints for each game constraint
-  
-  * b00 b01 b02 b03 b04
-  * b10 b11 b12 ...
-  
-  * (b00 v b01 v b02 v b03 v b04) ^ ()
+* Generate Puzzles or take from online
+* Puzzle description links
