@@ -90,11 +90,11 @@ const Attribution = ({attr}) =>
         fontSize: "16px",
         fontFamily: "sans-serif",
         marginBottom: "25px",
-        whiteSpace: "nowrap"
+        whiteSpace: "nowrap",
       },
        href: attr
     },
-   'puzzle link'
+   'Puzzle source'
   );
 
 const App = () => {
