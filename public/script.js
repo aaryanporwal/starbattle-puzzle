@@ -73,6 +73,18 @@ const Title = () =>
     'STAR BATTLE PUZZLE PARTY'
   )
 
+const Attribution = (url) =>
+  e('h2',
+    {
+      style: {
+        fontSize: '24px', fontFamily: 'sans-serif', fontStyle: 'underline',
+        marginBottom: '25px',
+        whiteSpace: 'nowrap'
+      }
+    },
+    <a href={url}> 'ATTR' </a>
+  )
+
 const App = () => {
   const [action, setAction] = React.useState("cross");
   const [puzzle, setPuzzle] = React.useState(null);
@@ -137,13 +149,14 @@ const App = () => {
     {
       style: {
         display: 'grid',
-        gridTemplateColumns: `1fr 25px ${500 + 4}px 25px 1fr`,
-        gridTemplateRows: `1fr 25px ${500 + 4}px 25px 1fr`,
+        gridTemplateColumns: `1fr 25px ${500 + 5}px 25px 1fr`,
+        gridTemplateRows: `1fr 25px ${500 + 5}px 25px 1fr`,
         gridTemplateAreas: `
           ".       .         title        . ."
           ".       .         columnLabels . ."
           "toolbar rowLabels board        . snapshots"
           ".       .         buttons      . ."
+          ".       .         attribution  . ."
         `,
         maxHeight: '100vh',
         minHeight: '100vh',
@@ -151,6 +164,9 @@ const App = () => {
     },
     e('div', { style: { gridArea: 'title', alignSelf: 'end' }},
       e(Title),
+    ),
+    e('div', { style: { gridArea: 'attribution', alignSelf: 'center' }},
+      e(Attribution("hi")),
     ),
     e('div', { style: { gridArea: 'columnLabels' } },
       puzzle && e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
