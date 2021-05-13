@@ -7,16 +7,22 @@ const io = require("socket.io")(server);
 
 let current_puzzle = "2 star 10x10 #1";
 const puzzles = {
-  "GM Puzzles Star Battle by Jinhoo Ahn - 20.0": {
+  "By Jinhoo Ahn - 2 Stars (20.0)": {
     stars: 2,
-    size: 5,
+    size: 10,
     regions: [
-      [0, 0, 1, 1, 1],
-      [0, 0, 2, 2, 1],
-      [3, 0, 2, 1, 1],
-      [3, 3, 4, 4, 4],
-      [3, 3, 3, 3, 3]
-    ]
+      [1, 1, 1, 1, 1, 1, 2, 2, 2, 2],
+      [1, 1, 1, 1, 1, 2, 2, 2, 2, 5],
+      [1, 1, 3, 3, 3, 2, 2, 4, 5, 5],
+      [1, 1, 1, 3, 3, 2, 4, 4, 5, 5],
+      [6, 1, 1, 1, 3, 4, 4, 4, 5, 5],
+      [6, 6, 7, 7, 7, 9, 5, 5, 5, 5],
+      [6, 6, 7, 7, 8, 9, 9, 5, 5, 5],
+      [6, 6, 7, 8, 8, 9, 9, 9, 5, 10],
+      [6, 6, 8, 8, 8, 10, 10, 10, 10, 10],
+      [6, 8, 8, 8, 10, 10, 10, 10, 10, 10]
+    ],
+    attribution: "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
   },
   "1 star 5x5 #2": {
     stars: 1,
@@ -73,7 +79,7 @@ initializeGlobalBoard(current_puzzle);
 const snapshots = [];
 
 function emitPuzzle(socket) {
-  socket.emit("puzzle", puzzles[current_puzzle]);  
+  socket.emit("puzzle", puzzles[current_puzzle]);
 }
 
 function emitBoard(socket) {
@@ -81,13 +87,13 @@ function emitBoard(socket) {
 }
 
 function emitSnapshots(socket) {
-  socket.emit("snapshots", snapshots);  
+  socket.emit("snapshots", snapshots);
 }
 
 function emitPuzzleSelection(socket) {
   socket.emit("puzzleSelection", {
     puzzleList: Object.keys(puzzles),
-    currentPuzzle: current_puzzle,
+    currentPuzzle: current_puzzle
   });
 }
 
@@ -131,7 +137,7 @@ io.on("connection", socket => {
     emitSnapshots(io);
   });
 
-  socket.on('choosePuzzle', (puzzleName) => {
+  socket.on("choosePuzzle", puzzleName => {
     snapshots.splice(0, snapshots.length);
     current_puzzle = puzzleName;
     initializeGlobalBoard(current_puzzle);
