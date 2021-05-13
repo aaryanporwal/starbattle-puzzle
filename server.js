@@ -7,8 +7,8 @@ const io = require("socket.io")(server);
 
 let current_puzzle = "2 star 10x10 #1";
 const puzzles = {
-  "1 star 5x5 #1": {
-    stars: 1,
+  "GM Puzzles Star Battle by Jinhoo Ahn - 20.0": {
+    stars: 2,
     size: 5,
     regions: [
       [0, 0, 1, 1, 1],
