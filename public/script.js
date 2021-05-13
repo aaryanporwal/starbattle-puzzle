@@ -82,7 +82,7 @@ const Title = () =>
     "STAR BATTLE PUZZLE PARTY"
   );
 
-const Attribution = (attr) =>
+const Attribution = ({attr}) =>
   e(
     "a",
     {
@@ -235,7 +235,7 @@ const App = () => {
         reset
       })
     ),
-   e("div", { style: { gridArea: "attribution", alignSelf: "center" } }, e(Attribution, puzzle.attribution)),
+   e("div", { style: { gridArea: "attribution", alignSelf: "center" } }, puzzle && e(Attribution, {attr: puzzle.attribution})),
 
   );
 };
