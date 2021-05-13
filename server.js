@@ -5,9 +5,9 @@ const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
-let current_puzzle = "2 star 10x10 #1";
+let current_puzzle = "Jinhoo Ahn - 2 Stars 20:00";
 const puzzles = {
-  "By Jinhoo Ahn - 2 Stars 20:00": {
+  "Jinhoo Ahn - 2 Stars 20:00": {
     stars: 2,
     size: 10,
     regions: [
@@ -24,7 +24,7 @@ const puzzles = {
     ],
     attribution: "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
   },
-  "By Thomas Snyder - 2 Stars 36:00": {
+  "Thomas Snyder - 2 Stars 36:00": {
     stars: 2,
     size: 12,
     regions: [
@@ -43,23 +43,23 @@ const puzzles = {
     ],
     attribution: "https://www.gmpuzzles.com/blog/2020/12/star-battle-by-thomas-snyder-8/"
   },
-  "2 star 10x10 #1": {
+  "Jinhoo Ahn - 2 Sddsaf0": {
     stars: 2,
     size: 10,
     regions: [
-      [0, 0, 1, 2, 2, 3, 3, 3, 4, 4],
-      [0, 0, 1, 2, 2, 3, 3, 3, 4, 4],
-      [0, 0, 1, 1, 2, 5, 5, 3, 4, 4],
-      [0, 0, 1, 1, 2, 2, 5, 5, 5, 6],
-      [0, 0, 1, 1, 2, 2, 5, 5, 5, 6],
-      [7, 0, 0, 1, 1, 5, 5, 6, 6, 6],
-      [7, 7, 7, 1, 1, 1, 1, 6, 6, 6],
-      [7, 7, 7, 7, 8, 8, 8, 8, 8, 8],
-      [9, 9, 9, 9, 9, 8, 8, 8, 8, 8],
-      [9, 9, 9, 9, 9, 8, 8, 8, 8, 8]
+      [1, 1, 1, 1, 1, 1, 2, 2, 2, 2],
+      [1, 1, 1, 1, 1, 2, 2, 2, 2, 5],
+      [1, 1, 3, 3, 3, 2, 2, 4, 5, 5],
+      [1, 1, 1, 3, 3, 2, 4, 4, 5, 5],
+      [6, 1, 1, 1, 3, 4, 4, 4, 5, 5],
+      [6, 6, 7, 7, 7, 9, 5, 5, 5, 5],
+      [6, 6, 7, 7, 8, 9, 9, 5, 5, 5],
+      [6, 6, 7, 8, 8, 9, 9, 9, 5, 10],
+      [6, 6, 8, 8, 8, 10, 10, 10, 10, 10],
+      [6, 8, 8, 8, 10, 10, 10, 10, 10, 10]
     ],
-    attribution: "https://www.puzzle-star-battle.com/?e=NTozLDM3Miw0MjQ="
-  }
+    attribution: "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
+  },
 };
 
 // make all the files in 'public' available
