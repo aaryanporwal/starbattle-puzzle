@@ -162,7 +162,7 @@ const App = () => {
       style: {
         display: "grid",
         gridTemplateColumns: `1fr 25px ${500 + 4}px 25px 1fr`,
-        gridTemplateRows: `1fr 25px ${500 + 4}px 25px 1fr`,
+        gridTemplateRows: `1fr 25px ${500 + 4}px 1fr 1fr 25px`,
         gridTemplateAreas: `
           ".       .         title        . ."
           ".       .         columnLabels . ."
@@ -235,7 +235,7 @@ const App = () => {
         reset
       })
     ),
-   e("div", { style: { gridArea: "attribution", alignSelf: "center" } }, puzzle && e(Attribution, {attr: puzzle.attribution})),
+   e("div", { style: { gridArea: "attribution", alignSelf: "end" } }, puzzle && e(Attribution, {attr: puzzle.attribution})),
 
   );
 };
