@@ -82,7 +82,7 @@ const Title = () =>
     "STAR BATTLE PUZZLE PARTY"
   );
 
-const Attribution = ({ attr }) =>
+const Attribution = (attr) =>
   e(
     "a",
     {
@@ -92,7 +92,7 @@ const Attribution = ({ attr }) =>
         marginBottom: "25px",
         whiteSpace: "nowrap"
       },
-      href: `${attr}`
+       href: attr
     },
    'puzzle link'
   );
@@ -235,7 +235,7 @@ const App = () => {
         reset
       })
     ),
-   e("div", { style: { gridArea: "attribution", alignSelf: "center" } }, e(Attribution, {attr: puzzle.size})),
+   e("div", { style: { gridArea: "attribution", alignSelf: "center" } }, e(Attribution, puzzle.attribution)),
 
   );
 };
