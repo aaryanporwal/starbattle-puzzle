@@ -60,7 +60,7 @@ const puzzles = {
     ],
     attribution: "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
   },
-  "Ashish Kumar - asdf:00": {
+  "Thomas Snyder - 2 Star 19:00": {
     stars: 2,
     size: 12,
     regions: [
@@ -74,7 +74,25 @@ const puzzles = {
       [1, 4, 5, 10, 9, 9, 9, 9, 10, 10, 2, 11],
       [1, 4, 12, 10, 10, 9, 9, 10, 10, 13, 2, 11],
       [1, 4, 12, 12, 10, 10, 10, 10, 13, 13, 2, 11],
-      [1, 4],
+      [1, 4, 4, 12, 12, 12, 12, 13, 13, 2, 2, 11],
+      [1, 1, 4, 4, 4, 4, 4, 2, 2, 2, 11, 11],
+      [1, 1, 1, 4, 4, 4, 4, 2, 2, 11, 11, 11],
+    ],
+    attribution: "https://www.gmpuzzles.com/blog/2020/06/star-battle-by-thomas-snyder-7/"
+  },
+  "Ashish Kumar - 2 Star 13:00 asdf": {
+    stars: 2,
+    size: 10,
+    regions: [
+      [1, 1, 2, 2, 2, 2, 2, 2, 2, 2],
+      [1, 1, 3, 3, 3, 4, 4, 4, 2, 2],
+      [1, 1, 3, 5, 5, 4, 4, 4, 2, 2],
+      [1, 1, 3, 3, 5, 4, 6, 4, 2, 2],
+      [7, 7, 3, 5, 5, 4, 6, 4, 2, 2],
+      [7, 7, 8, 5, 5, 9, 6, 6, 2, 2],
+      [],
+      [],
+      [],
       []
     ],
     attribution: "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
