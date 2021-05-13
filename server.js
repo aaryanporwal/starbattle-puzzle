@@ -5,9 +5,9 @@ const http = require("http");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
 
-let current_puzzle = "Jinhoo Ahn - 2 Stars 20:00";
+let current_puzzle = "JinHoo Ahn - 2 Stars 11:30";
 const puzzles = {
-    "JinHoo Ahn - 2 Star 11:30": {
+  "JinHoo Ahn - 2 Stars 11:30": {
     stars: 2,
     size: 10,
     regions: [
@@ -22,9 +22,10 @@ const puzzles = {
       [7, 7, 8, 8, 8, 9, 9, 9, 10, 10],
       [7, 7, 10, 10, 10, 10, 10, 10, 10, 10]
     ],
-    attribution: "https://www.gmpuzzles.com/blog/2020/06/star-battle-by-jinhoo-ahn/"
+    attribution:
+      "https://www.gmpuzzles.com/blog/2020/06/star-battle-by-jinhoo-ahn/"
   },
-    "Ashish Kumar - 2 Star 13:00": {
+  "Ashish Kumar - 2 Stars 13:00": {
     stars: 2,
     size: 10,
     regions: [
@@ -39,7 +40,8 @@ const puzzles = {
       [10, 9, 9, 9, 9, 10, 10, 7, 7, 8],
       [10, 10, 10, 10, 10, 10, 8, 8, 8, 8]
     ],
-    attribution: "https://www.gmpuzzles.com/blog/2020/08/star-battle-by-ashish-kumar-2/"
+    attribution:
+      "https://www.gmpuzzles.com/blog/2020/08/star-battle-by-ashish-kumar-2/"
   },
   "JinHoo Ahn - 2 Stars 20:00": {
     stars: 2,
@@ -56,8 +58,31 @@ const puzzles = {
       [6, 6, 8, 8, 8, 10, 10, 10, 10, 10],
       [6, 8, 8, 8, 10, 10, 10, 10, 10, 10]
     ],
-    attribution: "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
+    attribution:
+      "https://www.gmpuzzles.com/blog/2021/02/star-battle-by-jinhoo-ahn-4/"
   },
+
+  "Thomas Snyder - 2 Stars 19:00": {
+    stars: 2,
+    size: 12,
+    regions: [
+      [1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3],
+      [1, 1, 4, 5, 5, 5, 2, 2, 2, 2, 3, 3],
+      [1, 4, 4, 6, 6, 5, 5, 7, 7, 2, 2, 3],
+      [1, 4, 6, 6, 6, 5, 5, 7, 7, 7, 2, 3],
+      [1, 4, 6, 6, 5, 5, 5, 5, 7, 7, 2, 3],
+      [1, 4, 5, 5, 5, 9, 9, 5, 5, 10, 2, 11],
+      [1, 4, 5, 10, 9, 9, 9, 9, 10, 10, 2, 11],
+      [1, 4, 12, 10, 10, 9, 9, 10, 10, 13, 2, 11],
+      [1, 4, 12, 12, 10, 10, 10, 10, 13, 13, 2, 11],
+      [1, 4, 4, 12, 12, 12, 12, 13, 13, 2, 2, 11],
+      [1, 1, 4, 4, 4, 4, 4, 2, 2, 2, 11, 11],
+      [1, 1, 1, 4, 4, 4, 4, 2, 2, 11, 11, 11]
+    ],
+    attribution:
+      "https://www.gmpuzzles.com/blog/2020/06/star-battle-by-thomas-snyder-7/"
+  },
+
   "Thomas Snyder - 2 Stars 36:00": {
     stars: 2,
     size: 12,
@@ -75,29 +100,9 @@ const puzzles = {
       [5, 5, 5, 11, 2, 2, 12, 12, 12, 12, 3, 12],
       [5, 5, 11, 11, 2, 12, 12, 12, 12, 12, 12, 12]
     ],
-    attribution: "https://www.gmpuzzles.com/blog/2020/12/star-battle-by-thomas-snyder-8/"
-  },
-
-  "Thomas Snyder - 2 Star 19:00": {
-    stars: 2,
-    size: 12,
-    regions: [
-      [1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3],
-      [1, 1, 4, 5, 5, 5, 2, 2, 2, 2, 3, 3],
-      [1, 4, 4, 6, 6, 5, 5, 7, 7, 2, 2, 3],
-      [1, 4, 6, 6, 6, 5, 5, 7, 7, 7, 2, 3],
-      [1, 4, 6, 6, 5, 5, 5, 5, 7, 7, 2, 3],
-      [1, 4, 5, 5, 5, 9, 9, 5, 5, 10, 2, 11],
-      [1, 4, 5, 10, 9, 9, 9, 9, 10, 10, 2, 11],
-      [1, 4, 12, 10, 10, 9, 9, 10, 10, 13, 2, 11],
-      [1, 4, 12, 12, 10, 10, 10, 10, 13, 13, 2, 11],
-      [1, 4, 4, 12, 12, 12, 12, 13, 13, 2, 2, 11],
-      [1, 1, 4, 4, 4, 4, 4, 2, 2, 2, 11, 11],
-      [1, 1, 1, 4, 4, 4, 4, 2, 2, 11, 11, 11],
-    ],
-    attribution: "https://www.gmpuzzles.com/blog/2020/06/star-battle-by-thomas-snyder-7/"
-  },
-
+    attribution:
+      "https://www.gmpuzzles.com/blog/2020/12/star-battle-by-thomas-snyder-8/"
+  }
 };
 
 // make all the files in 'public' available
