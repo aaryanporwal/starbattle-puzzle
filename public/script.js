@@ -161,8 +161,8 @@ const App = () => {
     {
       style: {
         display: "grid",
-        gridTemplateColumns: `1fr 25px ${500 + 5}px 25px 1fr`,
-        gridTemplateRows: `1fr 25px ${500 + 5}px 25px 1fr`,
+        gridTemplateColumns: `1fr 25px ${500 + 4}px 25px 1fr`,
+        gridTemplateRows: `1fr 25px ${500 + 4}px 25px 1fr 1fr`,
         gridTemplateAreas: `
           ".       .         title        . ."
           ".       .         columnLabels . ."
