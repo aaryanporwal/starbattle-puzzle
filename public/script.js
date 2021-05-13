@@ -82,19 +82,19 @@ const Title = () =>
     "STAR BATTLE PUZZLE PARTY"
   );
 
-const Attribution = url =>
+const Attribution = ({ attr }) =>
   e(
-    "h2",
+    "a",
     {
       style: {
-        fontSize: "24px",
+        fontSize: "16px",
         fontFamily: "sans-serif",
-        fontStyle: "underline",
         marginBottom: "25px",
         whiteSpace: "nowrap"
-      }
+      },
+      href: `${attr}`
     },
-    url
+   'puzzle link'
   );
 
 const App = () => {
@@ -156,8 +156,6 @@ const App = () => {
     socket.current.emit("choosePuzzle", puzzleName);
   };
 
-  const blah = e("a", { href: `1` }, `${puzzle.size}`)
-
   return e(
     "div",
     {
@@ -177,23 +175,6 @@ const App = () => {
       }
     },
     e("div", { style: { gridArea: "title", alignSelf: "end" } }, e(Title)),
-    e(
-      "div",
-      { style: { gridArea: "attribution", alignSelf: "end" } },
-      e(
-        "h2",
-        {
-          style: {
-            fontSize: "24px",
-            fontFamily: "sans-serif",
-            fontStyle: "underline",
-            marginBottom: "25px",
-            whiteSpace: "nowrap"
-          }
-        },
-        blah
-      )
-    ),
     e(
       "div",
       { style: { gridArea: "columnLabels" } },
@@ -253,7 +234,9 @@ const App = () => {
         takeSnapshot,
         reset
       })
-    )
+    ),
+   e("div", { style: { gridArea: "attribution", alignSelf: "center" } }, e(Attribution, {attr: puzzle.size})),
+
   );
 };
 
