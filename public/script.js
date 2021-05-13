@@ -156,6 +156,8 @@ const App = () => {
     socket.current.emit("choosePuzzle", puzzleName);
   };
 
+  const blah = e("a", { href: `1` }, `${puzzle.size}`)
+
   return e(
     "div",
     {
@@ -189,7 +191,7 @@ const App = () => {
             whiteSpace: "nowrap"
           }
         },
-        "hello{board}"
+        blah
       )
     ),
     e(
