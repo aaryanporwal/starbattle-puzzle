@@ -3,9 +3,9 @@ import ReactDOM from "https://cdn.skypack.dev/react-dom";
 import * as Immer from "https://cdn.skypack.dev/immer";
 import io from "https://cdn.skypack.dev/socket.io-client";
 
-import Buttons from './Buttons.js';
-import Board from './Board.js';
-import Toolbar from './Toolbar.js';
+import Buttons from "./Buttons.js";
+import Board from "./Board.js";
+import Toolbar from "./Toolbar.js";
 
 const e = React.createElement;
 
@@ -15,7 +15,7 @@ const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
     {
       style: {
         display: "flex",
-        flexWrap: 'wrap',
+        flexWrap: "wrap"
       }
     },
     ...snapshots.map(board =>
@@ -27,63 +27,75 @@ const Snapshots = ({ puzzle, snapshots, check, restoreSnapshot }) =>
           },
           onClick: () => restoreSnapshot(board)
         },
-        e(Board, { puzzle, board, check, squareSize: 100 / puzzle.size, makeOnClick: () => () => {} })
+        e(Board, {
+          puzzle,
+          board,
+          check,
+          squareSize: 100 / puzzle.size,
+          makeOnClick: () => () => {}
+        })
       )
     )
   );
 
 const RowLabels = ({ size, squareSize }) =>
   e(
-    'div',
+    "div",
     {
       style: {
-        display: 'grid',
-        gridTemplateRows: `repeat(${size}, ${squareSize}px)`,
+        display: "grid",
+        gridTemplateRows: `repeat(${size}, ${squareSize}px)`
       }
     },
-    new Array(size).fill().map((_, i) =>
-      e('div', { style: { margin: 'auto' } }, i + 1)
-    )
-  )
+    new Array(size)
+      .fill()
+      .map((_, i) => e("div", { style: { margin: "auto" } }, i + 1))
+  );
 
-const alphabet = [...'abcdefghijklmnopqrstuvwxyz'];
+const alphabet = [..."abcdefghijklmnopqrstuvwxyz"];
 const ColumnLabels = ({ size, squareSize }) =>
   e(
-    'div',
+    "div",
     {
       style: {
-        display: 'grid',
-        gridTemplateColumns: `repeat(${size}, ${squareSize}px)`,
+        display: "grid",
+        gridTemplateColumns: `repeat(${size}, ${squareSize}px)`
       }
     },
-    new Array(size).fill().map((_, i) =>
-      e('div', { style: { margin: 'auto' } }, alphabet[i])
-    )
-  )
+    new Array(size)
+      .fill()
+      .map((_, i) => e("div", { style: { margin: "auto" } }, alphabet[i]))
+  );
 
 const Title = () =>
-  e('h1',
+  e(
+    "h1",
     {
       style: {
-        fontSize: '36px', fontFamily: 'sans-serif', fontStyle: 'italic',
-        marginBottom: '25px',
-        whiteSpace: 'nowrap'
+        fontSize: "36px",
+        fontFamily: "sans-serif",
+        fontStyle: "italic",
+        marginBottom: "25px",
+        whiteSpace: "nowrap"
       }
     },
-    'STAR BATTLE PUZZLE PARTY'
-  )
+    "STAR BATTLE PUZZLE PARTY"
+  );
 
-const Attribution = (url) =>
-  e('h2',
+const Attribution = url =>
+  e(
+    "h2",
     {
       style: {
-        fontSize: '24px', fontFamily: 'sans-serif', fontStyle: 'underline',
-        marginBottom: '25px',
-        whiteSpace: 'nowrap'
+        fontSize: "24px",
+        fontFamily: "sans-serif",
+        fontStyle: "underline",
+        marginBottom: "25px",
+        whiteSpace: "nowrap"
       }
     },
-    <a href={url}> 'ATTR' </a>
-  )
+    url
+  );
 
 const App = () => {
   const [action, setAction] = React.useState("cross");
@@ -141,14 +153,14 @@ const App = () => {
   };
 
   const choosePuzzle = puzzleName => {
-    socket.current.emit("choosePuzzle", puzzleName);    
+    socket.current.emit("choosePuzzle", puzzleName);
   };
 
   return e(
-    'div',
+    "div",
     {
       style: {
-        display: 'grid',
+        display: "grid",
         gridTemplateColumns: `1fr 25px ${500 + 5}px 25px 1fr`,
         gridTemplateRows: `1fr 25px ${500 + 5}px 25px 1fr`,
         gridTemplateAreas: `
@@ -158,39 +170,88 @@ const App = () => {
           ".       .         buttons      . ."
           ".       .         attribution  . ."
         `,
-        maxHeight: '100vh',
-        minHeight: '100vh',
-      },
+        maxHeight: "100vh",
+        minHeight: "100vh"
+      }
     },
-    e('div', { style: { gridArea: 'title', alignSelf: 'end' }},
-      e(Title),
-    ),
-    e('div', { style: { gridArea: 'attribution', alignSelf: 'center' }},
-      e(Attribution("hi")),
-    ),
-    e('div', { style: { gridArea: 'columnLabels' } },
-      puzzle && e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
-    ),
-    e('div', { style: { gridArea: 'toolbar', display: 'grid', placeItems: "center right", paddingRight: "25px" } },
-      e(Toolbar, { action, setAction })
-    ),
-    e('div', { style: { gridArea: 'rowLabels' } },
-      puzzle && e(RowLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
-    ),
-    e('div', { style: { gridArea: 'board'} },
-      puzzle && board && board.length === puzzle.size &&
-        e(Board, { action, puzzle, board, check, squareSize: 500 / puzzle.size, makeOnClick })
-    ),
-    e('div', { style: { gridArea: 'snapshots' } },
-      puzzle && snapshots.length > 0 && snapshots[0].length === puzzle.size &&
-        e(Snapshots, { puzzle, snapshots, check, restoreSnapshot })
-    ),
-    e('div', { style: { gridArea: 'buttons' } },
+    e("div", { style: { gridArea: "title", alignSelf: "end" } }, e(Title)),
+    e(
+      "div",
+      { style: { gridArea: "attribution", alignSelf: "end" } },
       e(
-        Buttons,
-        { currentPuzzle, puzzleList, choosePuzzle, check, setCheck, takeSnapshot, reset }
+        "h2",
+        {
+          style: {
+            fontSize: "24px",
+            fontFamily: "sans-serif",
+            fontStyle: "underline",
+            marginBottom: "25px",
+            whiteSpace: "nowrap"
+          }
+        },
+        "hello{board}"
       )
     ),
+    e(
+      "div",
+      { style: { gridArea: "columnLabels" } },
+      puzzle &&
+        e(ColumnLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
+    ),
+    e(
+      "div",
+      {
+        style: {
+          gridArea: "toolbar",
+          display: "grid",
+          placeItems: "center right",
+          paddingRight: "25px"
+        }
+      },
+      e(Toolbar, { action, setAction })
+    ),
+    e(
+      "div",
+      { style: { gridArea: "rowLabels" } },
+      puzzle &&
+        e(RowLabels, { size: puzzle.size, squareSize: 500 / puzzle.size })
+    ),
+    e(
+      "div",
+      { style: { gridArea: "board" } },
+      puzzle &&
+        board &&
+        board.length === puzzle.size &&
+        e(Board, {
+          action,
+          puzzle,
+          board,
+          check,
+          squareSize: 500 / puzzle.size,
+          makeOnClick
+        })
+    ),
+    e(
+      "div",
+      { style: { gridArea: "snapshots" } },
+      puzzle &&
+        snapshots.length > 0 &&
+        snapshots[0].length === puzzle.size &&
+        e(Snapshots, { puzzle, snapshots, check, restoreSnapshot })
+    ),
+    e(
+      "div",
+      { style: { gridArea: "buttons" } },
+      e(Buttons, {
+        currentPuzzle,
+        puzzleList,
+        choosePuzzle,
+        check,
+        setCheck,
+        takeSnapshot,
+        reset
+      })
+    )
   );
 };
 
